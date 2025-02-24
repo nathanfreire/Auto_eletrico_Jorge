@@ -1,0 +1,23 @@
+{
+  "name": "Auto Elétrico Jorge",
+  "version": "1.0.0",
+  "description": "Criação de uma ordem de serviço para um auto elétrico automotivo. Permitindo um gerenciamento eficiente dos serviços prestados.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanfreire/Auto-el-trico-Jorge.git"
+  },
+  "author": "Nathan Freire Furukawa Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "hhttps://github.com/nathanfreire/Auto-el-trico-Jorge/issues"
+  },
+  "homepage": "https://github.com/nathanfreire/Auto-el-trico-Jorge#readme",
+  "devDependencies": {
+    "electron": "^34.2.0"
+  }
+}
