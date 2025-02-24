@@ -7,10 +7,11 @@
     border: 3px solid #000000;
     border-radius: 10%;
     cursor: pointer;
+    background-color: rgb(192, 182, 172);
 }
 
 footer {
-    background-color: #4F4F4F;
+    background-color: #2e2c28;
     color: white;
     text-align: center;
     padding: 8px;
@@ -25,3 +26,6 @@ footer p {
     font-family: sans-serif;
 }
 
+body {
+    background-color: #f0d99c;
+}
