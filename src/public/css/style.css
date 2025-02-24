@@ -2,9 +2,10 @@
 
 /* Botões da tela principal */
 .button img {
-    margin: 50px 15px 25px 15px;
+    margin: 50px 30px 25px 45px;
     padding: 5px;
-    border: 1px solid #e8e8e8;
+    border: 3px solid #000000;
+    border-radius: 10%;
     cursor: pointer;
 }
 
@@ -16,7 +17,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 footer p {

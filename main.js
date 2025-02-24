@@ -75,16 +75,10 @@ const template = [
     label: 'Cadastro',
     submenu: [
       {
-        label: 'Dados da Oficina'
+        label: 'Cadastro do Clientes'
       },
       {
-        label: 'Dados do Clientes'
-      },
-      {
-        label: 'Dados do Veículo'
-      },
-      {
-        label: 'Descrição do serviço'
+        label: 'Cadastro do Veículo'
       },
       {
         label: 'OS'
