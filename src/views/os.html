@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordem de serviço</title>
+</head>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+<!-- CSS Personalizado -->
+<link rel="stylesheet" href="../public/css/style.css">
+<!-- impedir a execução de scripts externos ou não autorizados -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+
+<body>
+    <div class="container">
+        <form id="frmClient" class="mt-2 row g-3">
+            <!-- Buscar Cliente -->
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="searchClient" maxlength="30" spellcheck="false">
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" id="btnRead" onclick="searchClient()">Buscar</button>
+            </div>
+            <!-- -->
+            <hr class="mt-4 border border-primary border -1">
+
+            <!-- Número da OS -->
+            <div class="col-md-6">
+             <label for="inputNumberClient" class="form-label">Número da OS</label>
+             <input type="text" class="form-control" id="inputNumberClient" spellcheck="false" required maxlength="30">
+            </div>
+
+            <!-- Cliente associado -->
+            <div class="col-md-4">
+                <label for="inputAssociadoClient" class="form-label">Cliente associado</label>
+                <input type="text" class="form-control" id="inputAssociadoClient" spellcheck="false" maxlength="30">
+               </div>
+
+            <!-- Data de emissão -->
+            <div class="col-md-2">
+                <label for="inputEmissãoClient" class="form-label">Data de emissão</label>
+                <input type="text" class="form-control" id="inputEmissãoClient" spellcheck="false" required maxlength="8">
+               </div>
+
+            <!-- Descrição do serviço -->
+            <div class="col-md-12">
+                <label for="inputDescricaoClient" class="form-label">Descrição do serviço</label>
+                <input type="text" class="form-control" id="inputDescricaoClient" spellcheck="false" required maxlength="200">
+               </div>
+
+               <!-- Materiais utilizados -->
+            <div class="col-md-6">
+                <label for="inputPecasClient" class="form-label">Materiais utilizados</label>
+                <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required maxlength="60">
+               </div>
+
+               <!-- Orçamento do serviço -->
+            <div class="col-md-3">
+                <label for="inputOrcamentoClient" class="form-label">Orçamento do serviço</label>
+                <input type="text" class="form-control" id="inputOrcamentoClient" spellcheck="false" required maxlength="30">
+               </div>
+
+               <!-- Forma de pagamento -->
+            <div class="col-md-3">
+                <label for="inputpagamentoClient" class="form-label">Forma de pagamento</label>
+                <input type="text" class="form-control" id="inputpagamentoClient" spellcheck="false" required maxlength="20">
+               </div>
+
+            <!-- Assinaturas -->
+            <div class="col-md-3">
+                <label for="inputAssinaturasClient" class="form-label">Assinaturas Cliente</label>
+                <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
+               </div>
+
+               <!-- Assinaturas -->
+            <div class="col-md-3">
+                <label for="inputAssinaturasClient" class="form-label">Assinaturas Oficina</label>
+                <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
+               </div>
+
+               <!-- Status -->
+            <div class="col-md-6">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="pendente">Pendente</option>
+                    <option value="em andamento">Em andamento</option>
+                    <option value="concluída">Concluída</option>
+                </select>
+            </div>
+
+               <!-- Data de conclusão -->
+            <div class="col-md-3">
+                <label for="inputconclusãoClient" class="form-label">Data de conclusão</label>
+                <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required maxlength="30">
+               </div>
+
+
+                <!-- Botões -->
+                 <div class="mt-5">
+                    <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
+                    <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
+                    <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                    <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
+                 </div>
+
+        </form>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="../public/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

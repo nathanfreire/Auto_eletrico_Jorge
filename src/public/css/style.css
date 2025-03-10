@@ -10,6 +10,15 @@
     background-color: rgb(192, 182, 172);
 }
 
+/* Botao reset */
+#btnReset {
+    width: 64px;
+    height: 64px;
+    background-image: url('../img/vasoura.png');
+    border: none;
+    cursor: pointer;
+}
+
 footer {
     background-color: #2e2c28;
     color: white;

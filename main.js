@@ -1,6 +1,9 @@
 console.log("Processo principal")
 
-const { app, BrowserWindow, nativeTheme, Menu } = require('electron')
+const { app, BrowserWindow, nativeTheme, Menu, ipcMain } = require('electron')
+
+// Esta linha esta relacionada ao preload.js
+const path = require('node:path')
 
 // Janela principal
 let win
@@ -12,14 +15,30 @@ const createWindow = () => {
     height: 600,
     // autoHideMenuBar: true,
     // minimizable: false,
-    resizable: false
+    resizable: false,
+    // ativação do preload.js
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
   // menu personalizado
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 
-
   win.loadFile('./src/views/index.html')
+  // recebimento dos pedidos do renderizador para abertura de janelas (botoes)
+  // autorizado no preload.js
+  ipcMain.on('client-window', () => {
+    clientWindow()
+  })
+
+  ipcMain.on('os-window', () => {
+    osWindow()
+  })
+
+  ipcMain.on('carro-window', () => {
+    carroWindow()
+  })
 }
 
 // Janela sobre 
@@ -44,6 +63,67 @@ function aboutwindows() {
   // Carregar o documento html na janela
   about.loadFile('./src/views/sobre.html')
 }
+
+// janela clientes
+let client
+function clientWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    client = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      resizable: false,
+      parent: main,
+      modal: true
+    })
+  }
+    client.loadFile('./src/views/cliente.html')
+    client.center()
+  
+}
+
+// janela OS
+let os
+function osWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    os = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      resizable: false,
+      parent: main,
+      modal: true
+    })
+  }
+  os.loadFile('./src/views/os.html')
+  os.center()
+}
+
+// janela carro
+let carro
+function carroWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    carro = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      resizable: false,
+      parent: main,
+      modal: true
+    })
+  }
+    carro.loadFile('./src/views/carro.html')
+    carro.center()
+  
+}
+
+
 
 // Iniciar a aplicação 
 app.whenReady().then(() => {
@@ -75,13 +155,16 @@ const template = [
     label: 'Cadastro',
     submenu: [
       {
-        label: 'Cadastro do Clientes'
+        label: 'Cadastro do Clientes',
+        click: () => clientWindow()
       },
       {
-        label: 'Cadastro do Veículo'
+        label: 'Cadastro do Veículo',
+        click: () => carroWindow()
       },
       {
-        label: 'OS'
+        label: 'OS',
+        click: () => osWindow()
       },
       {
         type: 'separator'
@@ -97,16 +180,16 @@ const template = [
   {
     label: 'Relatórios',
     submenu: [ 
-    {
-      label: "Clientes"
-    },
-    {
-      label: "OS abertas"
-    },
-    {
-      label: "OS concluídas"
-    }
-  ]
+      {
+        label: "Clientes"
+      },
+      {
+        label: "OS abertas"
+      },
+      {
+        label: "OS concluídas"
+      }
+    ]
   },
 
   {
