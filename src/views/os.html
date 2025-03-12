@@ -69,9 +69,15 @@
             </div>
             
             <!-- Materiais utilizados -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="inputPecasClient" class="form-label">Materiais utilizados</label>
                 <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required maxlength="60">
+               </div>
+
+                <!-- Data de conclusão -->
+            <div class="col-md-3">
+                <label for="inputconclusãoClient" class="form-label">Data de conclusão</label>
+                <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required maxlength="30">
                </div>
 
                <!-- Orçamento do serviço -->
@@ -83,33 +89,34 @@
                <!-- Forma de pagamento -->
             <div class="col-md-3">
                 <label for="inputpagamentoClient" class="form-label">Forma de pagamento</label>
-                <input type="text" class="form-control" id="inputpagamentoClient" spellcheck="false" required maxlength="20">
+                <select type="text" class="form-select" id="inputpagamentoClient" spellcheck="false" required maxlength="20">
+                    <option value=""></option>
+                    <option>Pix</option>
+                    <option>Cartão Débito</option>
+                    <option>Cartão Crédito</option>
+                    <option>Dinheiro</option>
+                    <option>Boleto</option>
+                </select>
                </div>
 
-            <!-- Assinaturas -->
+            <!-- Assinaturas 
             <div class="col-md-3">
                 <label for="inputAssinaturasClient" class="form-label">Assinaturas Cliente</label>
                 <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
-               </div>
+               </div> -->
 
-               <!-- Assinaturas -->
+               <!-- Assinaturas 
             <div class="col-md-3">
                 <label for="inputAssinaturasClient" class="form-label">Assinaturas Oficina</label>
                 <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
-               </div>
-
-               <!-- Data de conclusão -->
-            <div class="col-md-3">
-                <label for="inputconclusãoClient" class="form-label">Data de conclusão</label>
-                <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required maxlength="30">
-               </div>
-
+               </div> 
+            -->
 
                <!-- Status -->
             <div class="col-md-3">
                 <label class="form-label">Status da OS</label>
                 <select class="form-select" id="osStatus">
-                    <option value="">Selecione</option>
+                    <option value=""></option>
                     <option>Aberta</option>
                     <option>Em andamento</option>
                     <option>Aguardando peças</option>
