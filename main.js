@@ -129,9 +129,6 @@ function carroWindow() {
 app.whenReady().then(() => {
   createWindow()
 
-  app.whenReady().then(() => {
-    createWindow()
-
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
@@ -144,7 +141,6 @@ app.whenReady().then(() => {
       app.quit()
     }
   })
-})
 
 // Reduzir logs não criticos
 app.commandLine.appendSwitch('log-level', '3')
