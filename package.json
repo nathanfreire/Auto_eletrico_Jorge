@@ -19,5 +19,8 @@
   "homepage": "https://github.com/nathanfreire/Auto-el-trico-Jorge#readme",
   "devDependencies": {
     "electron": "^34.2.0"
+  },
+  "dependencies": {
+    "mongoose": "^8.13.0"
   }
 }

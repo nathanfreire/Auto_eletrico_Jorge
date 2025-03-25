@@ -4,9 +4,19 @@
 
 const { contextBridge, ipcRenderer } = require('electron')
 
+// Enviar ao main um pedido para conexão do banco de dados e trca do icone no processo de renderização(index.html - renderer.html)
+ipcRenderer.send('db-connect')
+
+
 // expor (autorizar a comunicação entre processos)
 contextBridge.exposeInMainWorld('api', {
     clientWindow: () => ipcRenderer.send('client-window'),
     osWindow: () => ipcRenderer.send('os-window'),
-    carroWindow: () => ipcRenderer.send('carro-window')
+    carroWindow: () => ipcRenderer.send('carro-window'),
+    dbStatus: (message) => ipcRenderer.on('db-status', message),
+    newClient: (client) => ipcRenderer.send('new-client', client)
 })
+
+/*function dbStatus(message){
+    ipcRenderer.on('db-status', message)
+}*/
