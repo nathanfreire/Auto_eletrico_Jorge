@@ -1,6 +1,6 @@
 console.log("Processo principal")
 
-const { app, BrowserWindow, nativeTheme, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, nativeTheme, Menu, ipcMain, dialog, shell } = require('electron')
 
 // Esta linha esta relacionada ao preload.js
 const path = require('node:path')
@@ -15,7 +15,11 @@ const clientModel = require('./src/models/Clientes.js')
 // importar do Schema OS da camada model
 const osModel = require('./src/models/Os.js')
 
-//const clientes = require('./src/models/Clientes.js')
+// importação do pacote jspdf (npm i jspdf)
+const { jspdf, default: jsPDF } = require('jspdf')
+
+// importação d biblioteca fs (nativa do JS) para manipulação de arquivo
+const fs = require('fs')
 
 // Janela principal
 let win
@@ -76,7 +80,36 @@ const createWindow = () => {
       })
       // salvar os dados do cliente no banco de dados
       await newClient.save()
+      //Mensagem de confirmação
+      dialog.showMessageBox({
+        //Customização
+        type: 'info',
+        title: "Aviso",
+        message: "Cliente adicionado com sucesso",
+        buttons: ['OK']
+      }).then((result) => {
+        //ação ao precionar o botão 
+        if (result.response === 0) {
+          // enviar um pedido para o renderizador limpar os campos e resetar as 
+          // configurações pré definidas (rótulo) preload.js
+          event.reply('reset-form')
+        }
+
+      })
     } catch (error) {
+      //se o codigo de erro for 11000 (cpf duflicado) enviar uma mensagem ao usuario
+      if (error.code === 11000) {
+        dialog.showMessageBox({
+          type: 'info',
+          title: "Atenção!",
+          message: "CPF já está cadastrado\nVerifique se digitou corretamente",
+          buttons: ['OK']
+        }).then((result) => {
+          if (result.response === 0) {
+            // limpar a caixa do input do cpf, focar esta caixa e deixar a borda em vermelho
+          }
+        })
+      }
       console.log(error)
     }
   })
@@ -101,11 +134,21 @@ const createWindow = () => {
       })
       // salvar os dados do cliente no banco de dados
       await newOS.save()
+
     } catch (error) {
       console.log(error)
     }
   })
   // -- Fim - OS - CRUD Create ===========
+  // ==========================================
+
+
+
+  
+
+
+
+  // == Fim do Relatorio de Clientes ================
   // ==========================================
 
   // Janela sobre 
@@ -227,14 +270,14 @@ app.commandLine.appendSwitch('log-level', '3')
 ipcMain.on('db-connect', async (event) => {
   let conectado = await conectar()
   // se conectado for igual a true 
-  if (conectado){
+  if (conectado) {
     // enviar uma mensagem para o renderizador trocar o ícone, criar um dalay de 0.5s para sincronizar a nuvem
-    setTimeout(()=>{
-      event.reply('db-status',"conectado")
+    setTimeout(() => {
+      event.reply('db-status', "conectado")
     }, 500) //500ms
-      
-    }
-  
+
+  }
+
 })
 // se conectado for igual a true
 
@@ -243,7 +286,7 @@ ipcMain.on('db-connect', async (event) => {
 // conectar()
 
 // IPORTANTE Desconectar do banco de dadois quando a aplicação for encerrada
-app.on('before-quit', ()=>{
+app.on('before-quit', () => {
   desconectar()
 })
 
@@ -279,7 +322,8 @@ const template = [
     label: 'Relatórios',
     submenu: [
       {
-        label: "Clientes"
+        label: "Clientes",
+        click: () => relatorioClientes()
       },
       {
         label: "OS abertas"
@@ -328,4 +372,30 @@ const template = [
     ]
   }
 ]
+
+// ==========================================
+  // == Relatorio de Clientes ================
+  async function relatorioClientes() {
+    try {
+      const cliente = await clientModel.find().sort({ nomeClient: 1 })
+      console.log(cliente)
+
+      const doc = new jsPDF('p', 'mm', 'a4')
+      // definir o tamanho da fonte (tamanho equivalente ao word)
+      doc.setFontSize(26)
+      //escrever um texto (titulo)
+      doc.text("Relatorio de clientes", 14, 20 )// x, y (mm)
+      //..
+
+      // Definir o caminho do arquivo temporario
+      const tempDir = app.getPath('temp')
+      const filePath = path.join(tempDir, 'clientes.pdf')
+      //salvar o arquivo no aplicativo padrão de leitura de pdf do computador do usúario
+      doc.save(filePath)
+      //
+      shell.openPath(filePath)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
