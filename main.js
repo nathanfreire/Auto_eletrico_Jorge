@@ -385,7 +385,19 @@ const template = [
       doc.setFontSize(26)
       //escrever um texto (titulo)
       doc.text("Relatorio de clientes", 14, 20 )// x, y (mm)
-      //..
+      //inserir a data atual no relatorio
+      const dataAtual = new Date().toLocaleDateString('pt-BR')
+      doc.setFontSize(12)
+      doc.text(`Data: ${dataAtual}`, 160,10) 
+      /// variavel de apoio na formatação
+      let y = 45
+      doc.text("Nome", 14, y)
+      doc.text("Telefone", 80, y)
+      doc.text("E-mail", 130, y)
+      y += 5
+      //desenhar uma linha 
+      doc.setLineWidth(0.5) // expessura da linha 
+      doc.line(10, y, 200, y) // 10 (inicio) ---- 200 fim
 
       // Definir o caminho do arquivo temporario
       const tempDir = app.getPath('temp')
