@@ -412,9 +412,37 @@ async function relatorioClientes() {
     y += 10 // espaçamento da linha 
     // percorrer
     clientes.forEach((c) => {
+      // adicionar outra pagina se a folha inteira for preenchida (estrategia é saber o tamanho da folha)
+      // folha a4 y = 297mm
+      if (y > 280) {
+        doc.addPage()
+        y = 20 // resetar a variavel y
+        // redesenhar o cabeçalho 
+      
+        doc.text("Nome", 14, y)
+        doc.text("Telefone", 80, y)
+        doc.text("E-mail", 130, y)
+        y += 5
+        //desenhar uma linha 
+        doc.setLineWidth(0.5) // expessura da linha 
+        doc.line(10, y, 200, y) // 10 (inicio) ---- 200 fim
+        y += 10 // espaçamento da linha 
+
+      }
       doc.text(c.nomeCliente, 14, y)
+      doc.text(c.foneCliente, 80, y)
+      doc.text(c.emailCliente || "N/A", 130, y)
+
       y += 10 // quebra de linha
     })
+
+    // adicionar numeração automatica de paginas
+    const paginas = doc.internal.getNumberOfPages()
+      for(let i = 1; i <= paginas; i++) {
+        doc.setPage(i)
+        doc.setFontSize(10)
+        doc.text(`Pagina ${i} de ${paginas}`, 105, 290, {align:'center'})
+      }
 
     // Definir o caminho do arquivo temporario
     const tempDir = app.getPath('temp')
