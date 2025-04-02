@@ -16,11 +16,7 @@ contextBridge.exposeInMainWorld('api', {
     dbStatus: (message) => ipcRenderer.on('db-status', message),
     newClient: (client) => ipcRenderer.send('new-client', client),
     newOS: (OS) => ipcRenderer.send('new-os', OS),
-    //newOS: (OS) => ipcRenderer.send('new-os', OS)
+    newCarro: (Carro) => ipcRenderer.send('new-carro', Carro),
     resetForm: (args) => ipcRenderer.on('reset-form', args)
     
 })
-
-/*function dbStatus(message){
-    ipcRenderer.on('db-status', message)
-}*/

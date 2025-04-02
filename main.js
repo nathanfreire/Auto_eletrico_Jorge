@@ -12,6 +12,9 @@ const { conectar, desconectar } = require('./database')
 // importar do Schema Clientes da camada model
 const clientModel = require('./src/models/Clientes.js')
 
+// importar do Schema Carro da camada model
+const carroModel = require('./src/models/Carro.js')
+
 // importar do Schema OS da camada model
 const osModel = require('./src/models/Os.js')
 
@@ -116,40 +119,37 @@ const createWindow = () => {
   // -- Fim - Cliente - CRUD Create ===========
   // ==========================================
 
+  
+
+
+
   // ==========================================
-  // == OS - CRUD Create ================
+  // == Veiculo - CRUD Create ================
   // recebimento do objeto que contem os dados do cliente
-  ipcMain.on('new-OS', async (event, OS) => {
+  ipcMain.on('new-carro', async (event, Carro) => {
     // Importante! Teste de recebimento dos dados do cliente
-    console.log(OS)
+    console.log(Carro)
     // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
     try {
-      const newOS = new osModel({
-        descricaoOS: os.desOS,
-        materialOS: os.matOS,
-        dataOS: os.datOS,
-        orcamentoOS: os.orcOS,
-        pagamentoOS: os.pagOS,
-        statusOS: os.staOS
+      const newCarro = new carroModel({
+        proprietarioCarro: car.proCar,
+        marcaCarro: car.marCar,
+        modeloCarro: car.modCar,
+        anoCarro: car.anoCar,
+        placaCarro: car.plaCar,
+        corCarro: car.corCar,
+        chassiCarro: car.chasCar
       })
       // salvar os dados do cliente no banco de dados
-      await newOS.save()
+      await newCarro.save()
 
     } catch (error) {
       console.log(error)
     }
   })
-  // -- Fim - OS - CRUD Create ===========
+  // -- Fim - Veiculo - CRUD Create ===========
   // ==========================================
 
-
-
-
-
-
-
-  // == Fim do Relatorio de Clientes ================
-  // ==========================================
 
   // Janela sobre 
   function aboutwindows() {
@@ -290,6 +290,8 @@ app.on('before-quit', () => {
   desconectar()
 })
 
+
+
 // Template do menu
 const template = [
   {
@@ -372,6 +374,35 @@ const template = [
     ]
   }
 ]
+
+
+// ==========================================
+  // == OS - CRUD Create ================
+  // recebimento do objeto que contem os dados do cliente
+  ipcMain.on('new-os', async (event, OS) => {
+    // Importante! Teste de recebimento dos dados do cliente
+     console.log(OS)
+    // console.log("teste")
+    // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
+    try {
+      const newOS = new osModel({
+        descricaoOS: OS.desOS,
+        materialOS: OS.matOS,
+        dataOS: OS.datOS,
+        orcamentoOS: OS.orcOS,
+        pagamentoOS: OS.pagOS,
+        statusOS: OS.staOS
+      })
+      // salvar os dados do cliente no banco de dados
+      await newOS.save()
+
+    } catch (error) {
+      console.log(error)
+    } 
+  })
+  // -- Fim - OS - CRUD Create ===========
+  // ==========================================
+
 
 // ==========================================
 // == Relatorio de Clientes ================
@@ -458,4 +489,7 @@ async function relatorioClientes() {
     console.log(error)
   }
 }
+
+  // == Fim do Relatorio de Clientes ================
+  // ==========================================
 
