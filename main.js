@@ -144,7 +144,7 @@ const createWindow = () => {
 
 
 
-  
+
 
 
 
@@ -374,40 +374,60 @@ const template = [
 ]
 
 // ==========================================
-  // == Relatorio de Clientes ================
-  async function relatorioClientes() {
-    try {
-      const cliente = await clientModel.find().sort({ nomeClient: 1 })
-      console.log(cliente)
+// == Relatorio de Clientes ================
+async function relatorioClientes() {
+  try {
+    const clientes = await clientModel.find().sort({ nomeClient: 1 })
+    //console.log(cliente)
 
-      const doc = new jsPDF('p', 'mm', 'a4')
-      // definir o tamanho da fonte (tamanho equivalente ao word)
-      doc.setFontSize(26)
-      //escrever um texto (titulo)
-      doc.text("Relatorio de clientes", 14, 20 )// x, y (mm)
-      //inserir a data atual no relatorio
-      const dataAtual = new Date().toLocaleDateString('pt-BR')
-      doc.setFontSize(12)
-      doc.text(`Data: ${dataAtual}`, 160,10) 
-      /// variavel de apoio na formatação
-      let y = 45
-      doc.text("Nome", 14, y)
-      doc.text("Telefone", 80, y)
-      doc.text("E-mail", 130, y)
-      y += 5
-      //desenhar uma linha 
-      doc.setLineWidth(0.5) // expessura da linha 
-      doc.line(10, y, 200, y) // 10 (inicio) ---- 200 fim
+    // p - portrait | landscape | mm e a4 (folha A4 (210x297mm))
 
-      // Definir o caminho do arquivo temporario
-      const tempDir = app.getPath('temp')
-      const filePath = path.join(tempDir, 'clientes.pdf')
-      //salvar o arquivo no aplicativo padrão de leitura de pdf do computador do usúario
-      doc.save(filePath)
-      //
-      shell.openPath(filePath)
-    } catch (error) {
-      console.log(error)
-    }
+    const doc = new jsPDF('p', 'mm', 'a4')
+    // inserir imagem no documento pdf
+    // imagePath (caminho da imagem que sera inserida no pdf)
+    // imagePath( uso da biblioteca fs para ler o arquivo no formato png)
+    const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+    const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+    doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x, y)
+
+    // definir o tamanho da fonte (tamanho equivalente ao word)
+    doc.setFontSize(18)
+    //escrever um texto (titulo)
+    doc.text("Relatorio de clientes", 14, 45)// x, y (mm)
+    //inserir a data atual no relatorio
+    const dataAtual = new Date().toLocaleDateString('pt-BR')
+    doc.setFontSize(12)
+    doc.text(`Data: ${dataAtual}`, 160, 10)
+    /// variavel de apoio na formatação
+    let y = 60
+    doc.text("Nome", 14, y)
+    doc.text("Telefone", 80, y)
+    doc.text("E-mail", 130, y)
+    y += 5
+    //desenhar uma linha 
+    doc.setLineWidth(0.5) // expessura da linha 
+    doc.line(10, y, 200, y) // 10 (inicio) ---- 200 fim
+
+    // renderizar os clientes cadastrados no banco
+    y += 10 // espaçamento da linha 
+    // percorrer
+    clientes.forEach((c) => {
+      doc.text(c.nomeCliente, 14, y)
+      y += 10 // quebra de linha
+    })
+
+    // Definir o caminho do arquivo temporario
+    const tempDir = app.getPath('temp')
+    const filePath = path.join(tempDir, 'clientes.pdf')
+
+
+
+    //salvar o arquivo no aplicativo padrão de leitura de pdf do computador do usúario
+    doc.save(filePath)
+    //
+    shell.openPath(filePath)
+  } catch (error) {
+    console.log(error)
   }
+}
 

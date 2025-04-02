@@ -19,6 +19,15 @@
     cursor: pointer;
 }
 
+/* logo */
+#logo{
+    position: fixed;
+    bottom: 40px;
+    right: 5px;
+    border: none;
+    cursor: none;
+}
+
 footer {
     background-color: #2e2c28;
     color: white;
