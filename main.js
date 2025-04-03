@@ -119,37 +119,6 @@ const createWindow = () => {
   // -- Fim - Cliente - CRUD Create ===========
   // ==========================================
 
-  
-
-
-
-  // ==========================================
-  // == Veiculo - CRUD Create ================
-  // recebimento do objeto que contem os dados do cliente
-  ipcMain.on('new-carro', async (event, Carro) => {
-    // Importante! Teste de recebimento dos dados do cliente
-    console.log(Carro)
-    // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
-    try {
-      const newCarro = new carroModel({
-        proprietarioCarro: car.proCar,
-        marcaCarro: car.marCar,
-        modeloCarro: car.modCar,
-        anoCarro: car.anoCar,
-        placaCarro: car.plaCar,
-        corCarro: car.corCar,
-        chassiCarro: car.chasCar
-      })
-      // salvar os dados do cliente no banco de dados
-      await newCarro.save()
-
-    } catch (error) {
-      console.log(error)
-    }
-  })
-  // -- Fim - Veiculo - CRUD Create ===========
-  // ==========================================
-
 
   // Janela sobre 
   function aboutwindows() {
@@ -377,31 +346,78 @@ const template = [
 
 
 // ==========================================
-  // == OS - CRUD Create ================
-  // recebimento do objeto que contem os dados do cliente
-  ipcMain.on('new-os', async (event, OS) => {
-    // Importante! Teste de recebimento dos dados do cliente
-     console.log(OS)
-    // console.log("teste")
-    // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
-    try {
-      const newOS = new osModel({
-        descricaoOS: OS.desOS,
-        materialOS: OS.matOS,
-        dataOS: OS.datOS,
-        orcamentoOS: OS.orcOS,
-        pagamentoOS: OS.pagOS,
-        statusOS: OS.staOS
-      })
-      // salvar os dados do cliente no banco de dados
-      await newOS.save()
+// == OS - CRUD Create ================
+// recebimento do objeto que contem os dados do cliente
+ipcMain.on('new-os', async (event, OS) => {
+  // Importante! Teste de recebimento dos dados do cliente
+  console.log(OS)
+  // console.log("teste")
+  // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
+  try {
+    const newOS = new osModel({
+      descricaoOS: OS.desOS,
+      materialOS: OS.matOS,
+      dataOS: OS.datOS,
+      orcamentoOS: OS.orcOS,
+      pagamentoOS: OS.pagOS,
+      statusOS: OS.staOS
+    })
+    // salvar os dados do cliente no banco de dados
+    await newOS.save()
+    //Mensagem de confirmação
+    dialog.showMessageBox({
+      //Customização
+      type: 'info',
+      title: "Aviso",
+      message: "Cliente adicionado com sucesso",
+      buttons: ['OK']
+    }).then((result) => {
+      //ação ao precionar o botão 
+      if (result.response === 0) {
+        // enviar um pedido para o renderizador limpar os campos e resetar as 
+        // configurações pré definidas (rótulo) preload.js
+        event.reply('reset-form')
+      }
 
-    } catch (error) {
-      console.log(error)
-    } 
-  })
-  // -- Fim - OS - CRUD Create ===========
-  // ==========================================
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+// -- Fim - OS - CRUD Create ===========
+// ==========================================
+
+
+// ==========================================
+// == Veiculo - CRUD Create ================
+// recebimento do objeto que contem os dados do cliente
+ipcMain.on('new-carro', async (event, car) => {
+  // Importante! Teste de recebimento dos dados do cliente
+  console.log(car)
+  // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
+  try {
+    const newCarro = new carroModel({
+      proprietarioCarro: car.proCar,
+      marcaCarro: car.marCar,
+      modeloCarro: car.modCar,
+      anoCarro: car.anoCar,
+      placaCarro: car.plaCar,
+      corCarro: car.corCar,
+      chassiCarro: car.chasCar
+    })
+    // salvar os dados do cliente no banco de dados
+    await newCarro.save()
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+// -- Fim - Veiculo - CRUD Create ===========
+// ==========================================
+
+
+
 
 
 // ==========================================
@@ -449,7 +465,7 @@ async function relatorioClientes() {
         doc.addPage()
         y = 20 // resetar a variavel y
         // redesenhar o cabeçalho 
-      
+
         doc.text("Nome", 14, y)
         doc.text("Telefone", 80, y)
         doc.text("E-mail", 130, y)
@@ -469,11 +485,11 @@ async function relatorioClientes() {
 
     // adicionar numeração automatica de paginas
     const paginas = doc.internal.getNumberOfPages()
-      for(let i = 1; i <= paginas; i++) {
-        doc.setPage(i)
-        doc.setFontSize(10)
-        doc.text(`Pagina ${i} de ${paginas}`, 105, 290, {align:'center'})
-      }
+    for (let i = 1; i <= paginas; i++) {
+      doc.setPage(i)
+      doc.setFontSize(10)
+      doc.text(`Pagina ${i} de ${paginas}`, 105, 290, { align: 'center' })
+    }
 
     // Definir o caminho do arquivo temporario
     const tempDir = app.getPath('temp')
@@ -490,6 +506,6 @@ async function relatorioClientes() {
   }
 }
 
-  // == Fim do Relatorio de Clientes ================
-  // ==========================================
+// == Fim do Relatorio de Clientes ================
+// ==========================================
 

@@ -19,7 +19,7 @@ frmCarro.addEventListener('submit', async (event) =>{
     console.log(proprietarioCarro.value, marcaCarro.value, modeloCarro.value, anoCarro.value, placaCarro.value, corCarro.value, chassiCarro.value) 
 
     // Criar um objeto para armazenar os dados do cliente amtes de enviar ao main
-    const Carro = {
+    const car = {
         proCar: proprietarioCarro.value,
         marCar: marcaCarro.value,
         modCar: modeloCarro.value,
@@ -30,7 +30,7 @@ frmCarro.addEventListener('submit', async (event) =>{
     }
     // Enviar ao main o objeto client - (Passo 2: fluxo)
     // uso do preload.js
-    api.newCarro(Carro) 
+    api.newCarro(car) 
 }) 
 
 // == fim CRUD Creat/Update ==============================

@@ -33,4 +33,4 @@ const carroSchema = new Schema ({
 // exportar para o main o moulo de dados
 //OBS: Clientes será o nome da coleção "tabelas"
 
-module.exports = model('Carro', carroSchema)
+module.exports = model('Veículos', carroSchema)
