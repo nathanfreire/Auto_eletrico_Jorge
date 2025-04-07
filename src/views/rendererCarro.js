@@ -1,3 +1,11 @@
+// Iniciar a janela de clientes alterando as propriedades de alguns elementos
+document.addEventListener('DOMContentLoaded', () => {
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    // Foco na busca do cliente
+    foco.focus()
+})
+
 //captura dos dados dos inputs do formulario (passo 1 do fluxo)
 let frmCarro = document.getElementById('frmCarro')
 let proprietarioCarro = document.getElementById('inputProprietarioClient')
