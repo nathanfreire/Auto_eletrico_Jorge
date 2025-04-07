@@ -446,7 +446,7 @@ async function relatorioClientes() {
     // inserir imagem no documento pdf
     // imagePath (caminho da imagem que sera inserida no pdf)
     // imagePath( uso da biblioteca fs para ler o arquivo no formato png)
-    const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+    const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo jorge (1).png')
     const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
     doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x, y)
     // definir o tamanho da fonte (tamanho equivalente ao word)
