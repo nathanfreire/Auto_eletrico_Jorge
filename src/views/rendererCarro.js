@@ -35,3 +35,19 @@ frmCarro.addEventListener('submit', async (event) =>{
 
 // == fim CRUD Creat/Update ==============================
 // =======================================================
+
+// =======================================================
+// == Reset form =========================================
+function resetForm(){
+    //Limpar os campos e resetar o formulario com as configurações pré definidas
+    location.reload()
+}
+
+// Recebimento do pedido do main para resetar o formulario
+api.resetForm((args)=>{
+    resetForm()
+})
+
+
+// == Fim - Reset form ===================================
+// =======================================================
