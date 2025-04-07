@@ -8,7 +8,6 @@ const path = require('node:path')
 // Importação dos metodos conectar e desconectar (modulo de conexão)
 const { conectar, desconectar } = require('./database')
 
-
 // importar do Schema Clientes da camada model
 const clientModel = require('./src/models/Clientes.js')
 
@@ -46,174 +45,101 @@ const createWindow = () => {
 
   win.loadFile('./src/views/index.html')
 
-  // recebimento dos pedidos do renderizador para abertura de janelas (botoes)
-  // autorizado no preload.js
-  ipcMain.on('client-window', () => {
-    clientWindow()
-  })
-
-  ipcMain.on('os-window', () => {
-    osWindow()
-  })
-
-  ipcMain.on('carro-window', () => {
-    carroWindow()
-  })
-
-  // ==========================================
-  // == Clientes - CRUD Create ================
-  // recebimento do objeto que contem os dados do cliente
-  ipcMain.on('new-client', async (event, client) => {
-    // Importante! Teste de recebimento dos dados do cliente
-    console.log(client)
-    // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
-    try {
-      const newClient = new clientModel({
-        nomeCliente: client.nameCli,
-        cpfCliente: client.cpfCli,
-        emailCliente: client.emailCli,
-        foneCliente: client.telefoneCli,
-        cepCliente: client.cepCli,
-        logradouroCliente: client.AddressCli,
-        numeroCliente: client.numeroCli,
-        complementoCliente: client.ComplementCli,
-        bairroCliente: client.bairroCli,
-        cidadeCliente: client.CityCli,
-        ufCliente: client.ufCli
-      })
-      // salvar os dados do cliente no banco de dados
-      await newClient.save()
-      //Mensagem de confirmação
-      dialog.showMessageBox({
-        //Customização
-        type: 'info',
-        title: "Aviso",
-        message: "Cliente adicionado com sucesso",
-        buttons: ['OK']
-      }).then((result) => {
-        //ação ao precionar o botão 
-        if (result.response === 0) {
-          // enviar um pedido para o renderizador limpar os campos e resetar as 
-          // configurações pré definidas (rótulo) preload.js
-          event.reply('reset-form')
-        }
-
-      })
-    } catch (error) {
-      //se o codigo de erro for 11000 (cpf duflicado) enviar uma mensagem ao usuario
-      if (error.code === 11000) {
-        dialog.showMessageBox({
-          type: 'info',
-          title: "Atenção!",
-          message: "CPF já está cadastrado\nVerifique se digitou corretamente",
-          buttons: ['OK']
-        }).then((result) => {
-          if (result.response === 0) {
-            // limpar a caixa do input do cpf, focar esta caixa e deixar a borda em vermelho
-          }
-        })
-      }
-      console.log(error)
-    }
-  })
-  // -- Fim - Cliente - CRUD Create ===========
-  // ==========================================
-
-
-  // Janela sobre 
-  function aboutwindows() {
-    nativeTheme.themeSource = 'light'
-    // a linha abaixo obtem a janela principal
-    const main = BrowserWindow.getFocusedWindow()
-    let about
-    // Estabelece uma relação hierárquica entre janelas
-    if (main) {
-      // Criar a janela sobre
-      about = new BrowserWindow({
-        width: 360,
-        height: 200,
-        autoHideMenuBar: true,
-        resizable: false,
-        minimizable: false,
-        parent: main,
-        modal: true
-      })
-    }
-    // Carregar o documento html na janela
-    about.loadFile('./src/views/sobre.html')
-  }
-
-  // janela clientes
-  let client
-  function clientWindow() {
-    nativeTheme.themeSource = 'light'
-    const main = BrowserWindow.getFocusedWindow()
-    if (main) {
-      client = new BrowserWindow({
-        width: 1010,
-        height: 720,
-        //autoHideMenuBar: true,
-        resizable: false,
-        parent: main,
-        modal: true,
-        // ativação do preload.js
-        webPreferences: {
-          preload: path.join(__dirname, 'preload.js')
-        }
-      })
-
-    }
-    client.loadFile('./src/views/cliente.html')
-    client.center()
-
-  }
-
-  // janela OS
-  let os
-  function osWindow() {
-    nativeTheme.themeSource = 'light'
-    const main = BrowserWindow.getFocusedWindow()
-    if (main) {
-      os = new BrowserWindow({
-        width: 1010,
-        height: 720,
-        //autoHideMenuBar: true,
-        resizable: false,
-        parent: main,
-        modal: true,
-        // ativação do preload.js
-        webPreferences: {
-          preload: path.join(__dirname, 'preload.js')
-        }
-      })
-    }
-    os.loadFile('./src/views/os.html')
-    os.center()
-  }
-
-  // janela carro
-  let carro
-  function carroWindow() {
-    nativeTheme.themeSource = 'light'
-    const main = BrowserWindow.getFocusedWindow()
-    if (main) {
-      carro = new BrowserWindow({
-        width: 1010,
-        height: 720,
-        //autoHideMenuBar: true,
-        resizable: false,
-        parent: main,
-        modal: true,
-        // ativação do preload.js
-        webPreferences: {
-          preload: path.join(__dirname, 'preload.js')
-        }
-      })
-    }
-    carro.loadFile('./src/views/carro.html')
-    carro.center()
-  }
 }
+
+// Janela sobre 
+function aboutwindows() {
+  nativeTheme.themeSource = 'light'
+  // a linha abaixo obtem a janela principal
+  const main = BrowserWindow.getFocusedWindow()
+  let about
+  // Estabelece uma relação hierárquica entre janelas
+  if (main) {
+    // Criar a janela sobre
+    about = new BrowserWindow({
+      width: 360,
+      height: 200,
+      autoHideMenuBar: true,
+      resizable: false,
+      minimizable: false,
+      parent: main,
+      modal: true
+    })
+  }
+  // Carregar o documento html na janela
+  about.loadFile('./src/views/sobre.html')
+}
+
+// janela clientes
+let client
+function clientWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    client = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      // resizable: false,
+      parent: main,
+      modal: true,
+      // ativação do preload.js
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
+    })
+
+  }
+  client.loadFile('./src/views/cliente.html')
+  client.center() //iniciar no centro da tela
+}
+
+// janela OS
+let os
+function osWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    os = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      resizable: false,
+      parent: main,
+      modal: true,
+      // ativação do preload.js
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
+    })
+  }
+  os.loadFile('./src/views/os.html')
+  os.center()
+}
+
+// janela carro
+let carro
+function carroWindow() {
+  nativeTheme.themeSource = 'light'
+  const main = BrowserWindow.getFocusedWindow()
+  if (main) {
+    carro = new BrowserWindow({
+      width: 1010,
+      height: 720,
+      //autoHideMenuBar: true,
+      resizable: false,
+      parent: main,
+      modal: true,
+      // ativação do preload.js
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
+    })
+  }
+  carro.loadFile('./src/views/carro.html')
+  carro.center()
+}
+
 
 // Iniciar a aplicação 
 app.whenReady().then(() => {
@@ -244,22 +170,13 @@ ipcMain.on('db-connect', async (event) => {
     setTimeout(() => {
       event.reply('db-status', "conectado")
     }, 500) //500ms
-
   }
-
 })
-// se conectado for igual a true
-
-
-// iniciar a conexão com o banco de dados
-// conectar()
 
 // IPORTANTE Desconectar do banco de dadois quando a aplicação for encerrada
 app.on('before-quit', () => {
   desconectar()
 })
-
-
 
 // Template do menu
 const template = [
@@ -345,6 +262,82 @@ const template = [
 ]
 
 
+// recebimento dos pedidos do renderizador para abertura de janelas (botoes)
+// autorizado no preload.js
+ipcMain.on('client-window', () => {
+  clientWindow()
+})
+
+ipcMain.on('os-window', () => {
+  osWindow()
+})
+
+ipcMain.on('carro-window', () => {
+  carroWindow()
+})
+
+// ==========================================
+// == Clientes - CRUD Create ================
+// recebimento do objeto que contem os dados do cliente
+ipcMain.on('new-client', async (event, client) => {
+  // Importante! Teste de recebimento dos dados do cliente
+  console.log(client)
+  // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
+  try {
+    const newClient = new clientModel({
+      nomeCliente: client.nameCli,
+      cpfCliente: client.cpfCli,
+      emailCliente: client.emailCli,
+      foneCliente: client.telefoneCli,
+      cepCliente: client.cepCli,
+      logradouroCliente: client.AddressCli,
+      numeroCliente: client.numeroCli,
+      complementoCliente: client.ComplementCli,
+      bairroCliente: client.bairroCli,
+      cidadeCliente: client.CityCli,
+      ufCliente: client.ufCli
+    })
+    // salvar os dados do cliente no banco de dados
+    await newClient.save()
+    //Mensagem de confirmação
+    dialog.showMessageBox({
+      //Customização
+      type: 'info',
+      title: "Aviso",
+      message: "Cliente adicionado com sucesso",
+      buttons: ['OK']
+    }).then((result) => {
+      //ação ao precionar o botão 
+      if (result.response === 0) {
+        // enviar um pedido para o renderizador limpar os campos e resetar as 
+        // configurações pré definidas (rótulo) preload.js
+        event.reply('reset-form')
+      }
+
+    })
+  } catch (error) {
+    //se o codigo de erro for 11000 (cpf duflicado) enviar uma mensagem ao usuario
+    if (error.code === 11000) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: "Atenção!",
+        message: "CPF já está cadastrado\nVerifique se digitou corretamente",
+        buttons: ['OK']
+      }).then((result) => {
+        if (result.response === 0) {
+          // limpar a caixa do input do cpf, focar esta caixa e deixar a borda em vermelho
+        }
+      })
+    }
+    console.log(error)
+  }
+})
+// -- Fim - Cliente - CRUD Create ===========
+// ==========================================
+
+
+
+
 // ==========================================
 // == OS - CRUD Create ================
 // recebimento do objeto que contem os dados do cliente
@@ -389,6 +382,8 @@ ipcMain.on('new-os', async (event, OS) => {
 // ==========================================
 
 
+
+
 // ==========================================
 // == Veiculo - CRUD Create ================
 // recebimento do objeto que contem os dados do cliente
@@ -408,6 +403,22 @@ ipcMain.on('new-carro', async (event, car) => {
     })
     // salvar os dados do cliente no banco de dados
     await newCarro.save()
+    //Mensagem de confirmação
+    dialog.showMessageBox({
+      //Customização
+      type: 'info',
+      title: "Aviso",
+      message: "Cliente adicionado com sucesso",
+      buttons: ['OK']
+    }).then((result) => {
+      //ação ao precionar o botão 
+      if (result.response === 0) {
+        // enviar um pedido para o renderizador limpar os campos e resetar as 
+        // configurações pré definidas (rótulo) preload.js
+        event.reply('reset-form')
+      }
+
+    })
 
   } catch (error) {
     console.log(error)
@@ -422,13 +433,15 @@ ipcMain.on('new-carro', async (event, car) => {
 
 // ==========================================
 // == Relatorio de Clientes ================
+
 async function relatorioClientes() {
   try {
+    // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
     const clientes = await clientModel.find().sort({ nomeClient: 1 })
-    //console.log(cliente)
-
-    // p - portrait | landscape | mm e a4 (folha A4 (210x297mm))
-
+    // teste de recebimento da listagem de clientes
+    //console.log(clientes)
+    // Passo 2:Formatação do documento pdf
+    // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
     const doc = new jsPDF('p', 'mm', 'a4')
     // inserir imagem no documento pdf
     // imagePath (caminho da imagem que sera inserida no pdf)
@@ -436,7 +449,6 @@ async function relatorioClientes() {
     const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
     const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
     doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x, y)
-
     // definir o tamanho da fonte (tamanho equivalente ao word)
     doc.setFontSize(18)
     //escrever um texto (titulo)
@@ -465,7 +477,6 @@ async function relatorioClientes() {
         doc.addPage()
         y = 20 // resetar a variavel y
         // redesenhar o cabeçalho 
-
         doc.text("Nome", 14, y)
         doc.text("Telefone", 80, y)
         doc.text("E-mail", 130, y)
@@ -474,7 +485,6 @@ async function relatorioClientes() {
         doc.setLineWidth(0.5) // expessura da linha 
         doc.line(10, y, 200, y) // 10 (inicio) ---- 200 fim
         y += 10 // espaçamento da linha 
-
       }
       doc.text(c.nomeCliente, 14, y)
       doc.text(c.foneCliente, 80, y)
@@ -494,12 +504,9 @@ async function relatorioClientes() {
     // Definir o caminho do arquivo temporario
     const tempDir = app.getPath('temp')
     const filePath = path.join(tempDir, 'clientes.pdf')
-
-
-
-    //salvar o arquivo no aplicativo padrão de leitura de pdf do computador do usúario
+    // salvar temporariamente o arquivo
     doc.save(filePath)
-    //
+    //  abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
     shell.openPath(filePath)
   } catch (error) {
     console.log(error)

@@ -26,7 +26,7 @@ frmCarro.addEventListener('submit', async (event) =>{
         anoCar: anoCarro.value,
         plaCar: placaCarro.value,
         corCar: corCarro.value,
-        chasCar: chassiCarro.value
+        chasCar: chassiCarro.value 
     }
     // Enviar ao main o objeto client - (Passo 2: fluxo)
     // uso do preload.js

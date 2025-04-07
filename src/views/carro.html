@@ -15,57 +15,61 @@
 
 <body>
     <div class="container">
-        <form class="mt-2 row g-3">
+        <form id="frmCarro" class="mt-2 row g-3">
 
             <!-- Nome do Proprietario -->
             <div class="col-md-5">
                 <label for="inputProprietarioClient" class="form-label">Nome do Proprietario</label>
                 <input type="text" class="form-control" id="inputProprietarioClient" spellcheck="false" maxlength="15">
-               </div>
+            </div>
 
             <!-- Marca do carro -->
             <div class="col-md-3">
-             <label for="inputMarcaClient" class="form-label">Marca do Veiculo</label>
-             <input type="text" class="form-control" id="inputMarcaClient" spellcheck="false" required maxlength="15">
+                <label for="inputMarcaClient" class="form-label">Marca do Veiculo</label>
+                <input type="text" class="form-control" id="inputMarcaClient" spellcheck="false" required
+                    maxlength="15">
             </div>
 
             <!-- Modelo do Veiculo -->
             <div class="col-md-4">
                 <label for="inputModeloClient" class="form-label">Modelo</label>
-                <input type="text" class="form-control" id="inputModeloClient" spellcheck="false" required maxlength="20">
-               </div>
+                <input type="text" class="form-control" id="inputModeloClient" spellcheck="false" required
+                    maxlength="20">
+            </div>
 
             <!-- Ano do Veiculo -->
             <div class="col-md-3">
                 <label for="inputAnoClient" class="form-label">Ano</label>
                 <input type="text" class="form-control" id="inputAnoClient" spellcheck="false" maxlength="15">
-               </div>           
+            </div>
 
-               <!-- Placa -->
+            <!-- Placa -->
             <div class="col-md-3">
                 <label for="inputPlacaClient" class="form-label">Placa</label>
-                <input type="text" class="form-control" id="inputPlacaClient" spellcheck="false" required maxlength="15">
-               </div>
+                <input type="text" class="form-control" id="inputPlacaClient" spellcheck="false" required
+                    maxlength="15">
+            </div>
 
-               <!-- Cor -->
+            <!-- Cor -->
             <div class="col-md-2">
                 <label for="inputCorClient" class="form-label">Cor</label>
                 <input type="text" class="form-control" id="inputCorClient" spellcheck="false" required maxlength="15">
-               </div>
+            </div>
 
-               <!-- Chassi -->
+            <!-- Chassi -->
             <div class="col-md-4">
                 <label for="inputChassiClient" class="form-label">Chassi</label>
-                <input type="text" class="form-control" id="inputChassiClient" spellcheck="false" required maxlength="30">
-               </div>
+                <input type="text" class="form-control" id="inputChassiClient" spellcheck="false" required
+                    maxlength="30">
+            </div>
 
-                <!-- Botões -->
-                 <div class="mt-5">
-                    <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
-                    <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
-                    <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
-                    <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
-                 </div>
+            <!-- Botões -->
+            <div class="mt-5">
+                <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
+                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
+            </div>
 
         </form>
     </div>
