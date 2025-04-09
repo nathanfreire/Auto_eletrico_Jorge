@@ -319,7 +319,7 @@ ipcMain.on('new-client', async (event, client) => {
     //se o codigo de erro for 11000 (cpf duflicado) enviar uma mensagem ao usuario
     if (error.code === 11000) {
       dialog.showMessageBox({
-        type: 'info',
+        type: 'error',
         title: "Atenção!",
         message: "CPF já está cadastrado\nVerifique se digitou corretamente",
         buttons: ['OK']
