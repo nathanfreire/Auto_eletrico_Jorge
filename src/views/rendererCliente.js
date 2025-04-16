@@ -20,6 +20,9 @@ function buscarCEP() {
         .catch(error => console.log(error))
 }
 
+//vetor global que sera usado na manipulação dos dados
+let arrayClient = []
+
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
 const foco = document.getElementById('searchClient')
@@ -136,6 +139,81 @@ frmClient.addEventListener('submit', async (event) =>{
 
 
 
+
+// =======================================================
+// == CRUD Read ==================================
+
+function buscarCliente(){
+    //console.log("teste do botão buscar")
+
+    // Passo 1: Capturar o nome do cliente
+    let name = document.getElementById('searchClient').value
+    console.log(name) // teste do passo 1
+    api.searchName(name) // passo 2: envio do nome ao main
+    // Recebimento dos dados do cliente 
+    api.renderClient((event, dataClient) => {
+        console.log(dataClient) // teste do passo 5
+
+        // Passo 6: renderizar os dados do cliente no formulario
+        // - Criar um vetor global para manipulação dos dados 
+        // - Criar uma constante para converter os dados recebidos que estão no formato string para o formato JSON (JSON.parse)
+        // usar o laço forEach para percorrer o vetor e setar o campo (caixas de texto) do formulario
+        const dadosCliente = JSON.parse(dataClient)
+        // atribuir ao vetor os dados do cliente
+        arrayClient = dadosCliente
+        // extrair os dados do cliente
+        arrayClient.forEach((c) => {
+            nameClient.value = c.nomeCliente,
+            cpfClient.value = c.cpfCliente,
+            emailClient.value = c.emailCliente,
+            telefoneClient.value = c.foneCliente,    
+            cepClient.value = c.cepCliente,
+            AddressClient.value = c.logradouroCliente,
+            numeroClient.value = c.numeroCliente,
+            ComplementClient.value = c.complementoCliente,
+            bairroClient.value = c.bairroCliente,
+            CityClient.value = c.cidadeCliente,
+            ufClient.value = c.ufCliente
+
+        })
+    })
+}
+
+// == fim CRUD Read ==============================
+// =======================================================
+
+
+
+
+
+// =======================================================
+// == CRUD Read ==================================
+
+/*
+function buscarCPF(){
+    //console.log("teste do botão buscar")
+
+    // Passo 1: Capturar o nome do cliente
+    let cpf = document.getElementById('searchCPF').value
+    console.log(cpf) // teste do passo 1
+    api.searchCPF(cpf) // passo 2: envio do nome ao main
+    // Recebimento dos dados do cliente 
+    api.renderClient((event, ) => {
+        console.log() // teste do passo 5
+    })
+} 
+*/
+
+// == fim CRUD Read ==============================
+// =======================================================
+
+
+
+
+
+
+
+
 // =======================================================
 // == Reset form =========================================
 function resetForm(){
@@ -147,7 +225,6 @@ function resetForm(){
 api.resetForm((args)=>{
     resetForm()
 })
-
 
 // == Fim - Reset form ===================================
 // =======================================================
