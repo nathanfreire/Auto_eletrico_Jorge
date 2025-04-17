@@ -529,9 +529,15 @@ ipcMain.on('search-name', async(event, name) => {
   //find({nomeCliente: name}) - busca pelo nome
   //RegExp(name, i) - (insensitive / Ignorar maiúsculo ou minúsculo)
   try{
-    const dataClient = await clientModel.find({
+    /*const dataClient = await clientModel.find({
       nomeCliente: new RegExp(name, 'i')
-    })
+    })*/
+      const dataClient  = await clientModel.find({
+        $or: [
+          { nomeCliente: new RegExp(name, 'i') },
+          { cpfCliente: new RegExp(name, 'i') }
+        ]
+      })
     console.log(dataClient) // teste passo 3 e 4 (Importante!)
     // Passo 5: 
     // enviando os dados do cliente ao rendererCliente
@@ -548,10 +554,4 @@ ipcMain.on('search-name', async(event, name) => {
 // =======================================================
 
 
-
-// ==========================================
-// == CRUD Read CPF =============================
-
-// == fim CRUD Read CPF ======================================
-// =======================================================
 

@@ -174,7 +174,6 @@ function buscarCliente(){
             bairroClient.value = c.bairroCliente,
             CityClient.value = c.cidadeCliente,
             ufClient.value = c.ufCliente
-
         })
     })
 }
