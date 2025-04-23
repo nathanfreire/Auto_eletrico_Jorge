@@ -563,13 +563,15 @@ ipcMain.on('search-name', async(event, name) => {
         defaultId: 0, //botão 0
         buttons: ['Sim', 'Não'] // [0, 1]
       }).then((result) => {
-
+        if (result.response === 0) {
+          // enviar ao renderizador um pedido para setar os campos (recortar do campo de busca e colocar no campo nome)
+          event.reply('set-client')
+        } else {
+          // limpar o formulário
+          event.reply('reset-form')
+        }
       })
-
-    } else {
-
     }
-
 
     // Passo 5: 
     // enviando os dados do cliente ao rendererCliente

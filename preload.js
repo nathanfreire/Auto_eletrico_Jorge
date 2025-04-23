@@ -20,6 +20,7 @@ contextBridge.exposeInMainWorld('api', {
     resetForm: (args) => ipcRenderer.on('reset-form', args),
     searchName: (name) => ipcRenderer.send('search-name', name),
     renderClient: (dataClient) => ipcRenderer.on('renderClient', dataClient),
-    validateSearch: () => ipcRenderer.send('validate-search')
+    validateSearch: () => ipcRenderer.send('validate-search'),
+    setClient: (args) => ipcRenderer.addListener('set-client', args)
     
 })

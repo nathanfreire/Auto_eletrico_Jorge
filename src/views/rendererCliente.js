@@ -35,6 +35,33 @@ document.addEventListener('DOMContentLoaded', () => {
     foco.focus()
 })
 
+// =================================================================================
+// =========== Manipulação da tecla Enter ==========================================
+
+
+// Função para manipular o evento da tecla Enter
+function teclaEnter(event) {
+    // se a tecla Enter for pressionada
+    if (event.key === "Enter") {
+        event.preventDefault() // ignorar o comportamento padrão 
+        // associar o Entyer a busca do cliente
+        buscarCliente()
+    }
+}
+
+// Função para restaurar o padrão da tecla Enter (submit)
+function restaurarEnter() {
+    frmClient.removeEventListener('keydown', teclaEnter)
+}
+
+// "Escuta do evento Tecla Enter"
+frmClient.addEventListener('keydown', teclaEnter)
+
+// ============ Fim -  Manipulação da tecla Enter ===================================
+// ==================================================================================
+
+
+
 //captura dos dados dos inputs do formulario (passo 1 do fluxo)
 let frmClient = document.getElementById('frmClient')
 let nameClient = document.getElementById('inputNameClient')
@@ -187,6 +214,19 @@ function buscarCliente(){
         })
     }
 }
+
+// setar o cliente não cadastrado (recortar do campo de busca e colar no campo nome)
+api.setClient((args) => {
+    // Criar uma variavel para armazenar um valor digitado no campo de busca (nome ou cpf)
+    let campoBusca = document.getElementById('searchClient').value
+    // Foco no campo de nome do cliente
+    nameClient.focus()
+    // remover o valor digitado no campo de busca
+    foco.value = ""
+    // preencher o campo de nome cliente com o nome da busca
+    nameClient.value = campoBusca
+    
+})
 
 // == fim CRUD Read ==============================
 // =======================================================
