@@ -182,37 +182,6 @@ function buscarCliente(){
 // =======================================================
 
 
-
-
-
-// =======================================================
-// == CRUD Read ==================================
-
-/*
-function buscarCPF(){
-    //console.log("teste do botão buscar")
-
-    // Passo 1: Capturar o nome do cliente
-    let cpf = document.getElementById('searchCPF').value
-    console.log(cpf) // teste do passo 1
-    api.searchCPF(cpf) // passo 2: envio do nome ao main
-    // Recebimento dos dados do cliente 
-    api.renderClient((event, ) => {
-        console.log() // teste do passo 5
-    })
-} 
-*/
-
-// == fim CRUD Read ==============================
-// =======================================================
-
-
-
-
-
-
-
-
 // =======================================================
 // == Reset form =========================================
 function resetForm(){

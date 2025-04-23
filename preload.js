@@ -20,9 +20,5 @@ contextBridge.exposeInMainWorld('api', {
     resetForm: (args) => ipcRenderer.on('reset-form', args),
     searchName: (name) => ipcRenderer.send('search-name', name),
     renderClient: (dataClient) => ipcRenderer.on('renderClient', dataClient)
-    //searchCPF: (cpf) => ipcRenderer.send('search-cpf', cpf)
-    //renderCPF: () => ipcRenderer.on('render-cpf', )
-
-    // criar um para cpf
     
 })
