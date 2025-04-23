@@ -587,5 +587,15 @@ ipcMain.on('search-name', async(event, name) => {
 // == fim CRUD Read ======================================
 // =======================================================
 
+/*ipcMain.on('search-cpf', (event, cpf) => {
+  // buscar no banco pelo CPF (sem máscara)
+  const cliente = db.getClientePorCPF(cpf);
+  if (cliente) {
+      event.sender.send('render-client', JSON.stringify([cliente]));
+  } else {
+      event.sender.send('set-client');
+  }
+});*/
+
 
 

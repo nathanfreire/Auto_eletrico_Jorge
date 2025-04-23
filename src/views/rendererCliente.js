@@ -215,7 +215,8 @@ function buscarCliente(){
 }
 
 // setar o cliente não cadastrado (recortar do campo de busca e colar no campo nome)
-api.setClient((args) => {
+
+/* api.setClient((args) => {
     // Criar uma variavel para armazenar um valor digitado no campo de busca (nome ou cpf)
     let campoBusca = document.getElementById('searchClient').value
     // Foco no campo de nome do cliente
@@ -224,18 +225,31 @@ api.setClient((args) => {
     foco.value = ""
     // preencher o campo de nome cliente com o nome da busca
     nameClient.value = campoBusca
-    
+}) */
+
+api.setClient((args) => {
+    let campoBusca = document.getElementById('searchClient').value.trim()
+
+    // Regex para verificar se o valor é só número (CPF)
+    if (/^\d{11}$/.test(campoBusca)) {
+        // É um número → CPF
+        cpfClient.focus()
+        foco.value = ""
+        cpfClient.value = campoBusca
+    } 
+    else if(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(campoBusca)){
+        cpfClient.focus()
+        foco.value = ""
+        cpfClient.value = campoBusca
+    }
+    else {
+        // Não é número → Nome
+        nameClient.focus()
+        foco.value = ""
+        nameClient.value = campoBusca
+    }
 })
 
-ipcMain.on('search-cpf', (event, cpf) => {
-    // buscar no banco pelo CPF (sem máscara)
-    const cliente = db.getClientePorCPF(cpf);
-    if (cliente) {
-        event.sender.send('render-client', JSON.stringify([cliente]));
-    } else {
-        event.sender.send('set-client');
-    }
-});
 
 // == fim CRUD Read ==============================
 // =======================================================
