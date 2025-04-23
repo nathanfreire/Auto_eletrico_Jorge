@@ -521,6 +521,17 @@ async function relatorioClientes() {
 // ==========================================
 // == CRUD Read =============================
 
+// Validação de busca (preenchimento obrigatorio)
+ipcMain.on('validate-search', () => {
+  dialog.showMessageBox({
+    type: 'warning',
+    title: 'Atenção',
+    message: 'Preencha o campo de busca',
+    buttons: ['OK']
+  })
+})
+
+
 ipcMain.on('search-name', async(event, name) => {
   //console.log("teste IPC search-name") Dica para testar o funcionamento
   //console.log(name) // teste do passo 2 (importante)
@@ -539,6 +550,27 @@ ipcMain.on('search-name', async(event, name) => {
         ]
       })
     console.log(dataClient) // teste passo 3 e 4 (Importante!)
+
+    // melhoria d eexperiencia do usuario (se o cliente nao estiver cadastrado, alertar o usuario e questionar se ele
+    // quer cadastrar este novo cliente. Se não quiser cadastrar, limpar os campos, se quiser cadastrar recortar o nome do cliente do campo de busca e colar no campo nome)
+
+    // se o vetor estiver vazio []
+    if(dataClient.length === 0) {
+      dialog.showMessageBox({
+        type: 'warning',
+        title: "Aviso",
+        message: "Cliente não cadastrado.\nDeseja cadastra-lo",
+        defaultId: 0, //botão 0
+        buttons: ['Sim', 'Não'] // [0, 1]
+      }).then((result) => {
+
+      })
+
+    } else {
+
+    }
+
+
     // Passo 5: 
     // enviando os dados do cliente ao rendererCliente
     // OBS: IPC só trabalha com string, então é necessario converter o JSON para string JSON.stringify(dataClient)

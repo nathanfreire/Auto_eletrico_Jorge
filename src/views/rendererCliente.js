@@ -149,33 +149,43 @@ function buscarCliente(){
     // Passo 1: Capturar o nome do cliente
     let name = document.getElementById('searchClient').value
     console.log(name) // teste do passo 1
-    api.searchName(name) // passo 2: envio do nome ao main
-    // Recebimento dos dados do cliente 
-    api.renderClient((event, dataClient) => {
-        console.log(dataClient) // teste do passo 5
 
-        // Passo 6: renderizar os dados do cliente no formulario
-        // - Criar um vetor global para manipulação dos dados 
-        // - Criar uma constante para converter os dados recebidos que estão no formato string para o formato JSON (JSON.parse)
-        // usar o laço forEach para percorrer o vetor e setar o campo (caixas de texto) do formulario
-        const dadosCliente = JSON.parse(dataClient)
-        // atribuir ao vetor os dados do cliente
-        arrayClient = dadosCliente
-        // extrair os dados do cliente
-        arrayClient.forEach((c) => {
-            nameClient.value = c.nomeCliente,
-            cpfClient.value = c.cpfCliente,
-            emailClient.value = c.emailCliente,
-            telefoneClient.value = c.foneCliente,    
-            cepClient.value = c.cepCliente,
-            AddressClient.value = c.logradouroCliente,
-            numeroClient.value = c.numeroCliente,
-            ComplementClient.value = c.complementoCliente,
-            bairroClient.value = c.bairroCliente,
-            CityClient.value = c.cidadeCliente,
-            ufClient.value = c.ufCliente
+    // validação do campo obrigatorio
+    // se o campo de busca não for preenchido
+    if (name === "") {
+        // enviar ao main um pedido para alertar o usúario
+        api.validateSearch()
+        foco.focus()
+
+    } else {
+        api.searchName(name) // passo 2: envio do nome ao main
+        // Recebimento dos dados do cliente 
+        api.renderClient((event, dataClient) => {
+            console.log(dataClient) // teste do passo 5
+    
+            // Passo 6: renderizar os dados do cliente no formulario
+            // - Criar um vetor global para manipulação dos dados 
+            // - Criar uma constante para converter os dados recebidos que estão no formato string para o formato JSON (JSON.parse)
+            // usar o laço forEach para percorrer o vetor e setar o campo (caixas de texto) do formulario
+            const dadosCliente = JSON.parse(dataClient)
+            // atribuir ao vetor os dados do cliente
+            arrayClient = dadosCliente
+            // extrair os dados do cliente
+            arrayClient.forEach((c) => {
+                nameClient.value = c.nomeCliente,
+                cpfClient.value = c.cpfCliente,
+                emailClient.value = c.emailCliente,
+                telefoneClient.value = c.foneCliente,    
+                cepClient.value = c.cepCliente,
+                AddressClient.value = c.logradouroCliente,
+                numeroClient.value = c.numeroCliente,
+                ComplementClient.value = c.complementoCliente,
+                bairroClient.value = c.bairroCliente,
+                CityClient.value = c.cidadeCliente,
+                ufClient.value = c.ufCliente
+            })
         })
-    })
+    }
 }
 
 // == fim CRUD Read ==============================
