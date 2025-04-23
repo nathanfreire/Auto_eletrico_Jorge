@@ -35,6 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
     foco.focus()
 })
 
+
+//captura dos dados dos inputs do formulario (passo 1 do fluxo)
+let frmClient = document.getElementById('frmClient')
+let nameClient = document.getElementById('inputNameClient')
+let cpfClient = document.getElementById('inputCPFClient')
+let emailClient = document.getElementById('inputEmailClient')
+let telefoneClient = document.getElementById('inputTelefoneClient')
+let cepClient = document.getElementById('inputCEPClient')
+let AddressClient = document.getElementById('inputAddressClient')
+let numeroClient = document.getElementById('inputNumeroClient')
+let ComplementClient = document.getElementById('inputComplementClient')
+let bairroClient = document.getElementById('inputBairroClient')
+let CityClient = document.getElementById('inputCityClient')
+let ufClient = document.getElementById('inputUfClient')
+
 // =================================================================================
 // =========== Manipulação da tecla Enter ==========================================
 
@@ -59,22 +74,6 @@ frmClient.addEventListener('keydown', teclaEnter)
 
 // ============ Fim -  Manipulação da tecla Enter ===================================
 // ==================================================================================
-
-
-
-//captura dos dados dos inputs do formulario (passo 1 do fluxo)
-let frmClient = document.getElementById('frmClient')
-let nameClient = document.getElementById('inputNameClient')
-let cpfClient = document.getElementById('inputCPFClient')
-let emailClient = document.getElementById('inputEmailClient')
-let telefoneClient = document.getElementById('inputTelefoneClient')
-let cepClient = document.getElementById('inputCEPClient')
-let AddressClient = document.getElementById('inputAddressClient')
-let numeroClient = document.getElementById('inputNumeroClient')
-let ComplementClient = document.getElementById('inputComplementClient')
-let bairroClient = document.getElementById('inputBairroClient')
-let CityClient = document.getElementById('inputCityClient')
-let ufClient = document.getElementById('inputUfClient')
 
 // === Função para aplicar máscara no CPF ===
 function aplicarMascaraCPF(campo) {
@@ -227,6 +226,16 @@ api.setClient((args) => {
     nameClient.value = campoBusca
     
 })
+
+ipcMain.on('search-cpf', (event, cpf) => {
+    // buscar no banco pelo CPF (sem máscara)
+    const cliente = db.getClientePorCPF(cpf);
+    if (cliente) {
+        event.sender.send('render-client', JSON.stringify([cliente]));
+    } else {
+        event.sender.send('set-client');
+    }
+});
 
 // == fim CRUD Read ==============================
 // =======================================================
