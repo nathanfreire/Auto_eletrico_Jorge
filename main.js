@@ -583,19 +583,37 @@ ipcMain.on('search-name', async(event, name) => {
   }
 })
 
+// == Fim - CRUD Read ================
+// ==========================================
 
-// == fim CRUD Read ======================================
-// =======================================================
 
-/*ipcMain.on('search-cpf', (event, cpf) => {
-  // buscar no banco pelo CPF (sem máscara)
-  const cliente = db.getClientePorCPF(cpf);
-  if (cliente) {
-      event.sender.send('render-client', JSON.stringify([cliente]));
-  } else {
-      event.sender.send('set-client');
+
+// ==========================================
+// == CRUD Delete =============================
+
+ipcMain.on('delete-client', async (event, id)=>{
+  console.log(id) // teste do passo 2 (recebimento do id)
+  try {
+    //importante - confirmar a exclusão
+    // client é o nome da variavel que representa a janela 
+    const {response} = await dialog.showMessageBox(client, {
+      type: 'warning',
+      title: "Atenção!",
+      message: "Deseja excluir este cliente?\nEsta ação não poderá ser desfeita.",
+      buttons: ['Cancelar','Excluir'] // [0, 1]
+    })
+    if (response === 1){
+      console.log("teste do if de excluir")
+      // Passo 3 - Excluir o registro do cliente
+      const delClient = await clientModel.findByIdAndDelete(id)
+      event.reply('reset-form')
+    }
+  } catch (error) {
+    console.log(error)
   }
-});*/
+})
 
 
 
+// == Fim - CRUD Delete ================
+// ==========================================
