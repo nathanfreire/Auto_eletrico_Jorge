@@ -281,7 +281,7 @@ ipcMain.on('carro-window', () => {
 // recebimento do objeto que contem os dados do cliente
 ipcMain.on('new-client', async (event, client) => {
   // Importante! Teste de recebimento dos dados do cliente
-  console.log(client)
+  // console.log(client)
   // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
   try {
     const newClient = new clientModel({
@@ -296,7 +296,7 @@ ipcMain.on('new-client', async (event, client) => {
       bairroCliente: client.bairroCli,
       cidadeCliente: client.CityCli,
       ufCliente: client.ufCli
-    })
+    });
     // salvar os dados do cliente no banco de dados
     await newClient.save()
     //Mensagem de confirmação
@@ -532,30 +532,30 @@ ipcMain.on('validate-search', () => {
 })
 
 
-ipcMain.on('search-name', async(event, name) => {
+ipcMain.on('search-name', async (event, name) => {
   //console.log("teste IPC search-name") Dica para testar o funcionamento
   //console.log(name) // teste do passo 2 (importante)
 
   // passos 3 e 4 busca dos dados do cliente do banco
   //find({nomeCliente: name}) - busca pelo nome
   //RegExp(name, i) - (insensitive / Ignorar maiúsculo ou minúsculo)
-  try{
+  try {
     /*const dataClient = await clientModel.find({
       nomeCliente: new RegExp(name, 'i')
     })*/
-      const dataClient  = await clientModel.find({
-        $or: [
-          { nomeCliente: new RegExp(name, 'i') },
-          { cpfCliente: new RegExp(name, 'i') }
-        ]
-      })
+    const dataClient = await clientModel.find({
+      $or: [
+        { nomeCliente: new RegExp(name, 'i') },
+        { cpfCliente: new RegExp(name, 'i') }
+      ]
+    })
     console.log(dataClient) // teste passo 3 e 4 (Importante!)
 
     // melhoria d eexperiencia do usuario (se o cliente nao estiver cadastrado, alertar o usuario e questionar se ele
     // quer cadastrar este novo cliente. Se não quiser cadastrar, limpar os campos, se quiser cadastrar recortar o nome do cliente do campo de busca e colar no campo nome)
 
     // se o vetor estiver vazio []
-    if(dataClient.length === 0) {
+    if (dataClient.length === 0) {
       dialog.showMessageBox({
         type: 'warning',
         title: "Aviso",
@@ -578,8 +578,8 @@ ipcMain.on('search-name', async(event, name) => {
     // OBS: IPC só trabalha com string, então é necessario converter o JSON para string JSON.stringify(dataClient)
     event.reply('renderClient', JSON.stringify(dataClient))
 
-  }catch (error) {
-    console.log (error)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -591,19 +591,19 @@ ipcMain.on('search-name', async(event, name) => {
 // ==========================================
 // == CRUD Delete =============================
 
-ipcMain.on('delete-client', async (event, id)=>{
+ipcMain.on('delete-client', async (event, id) => {
   console.log(id) // teste do passo 2 (recebimento do id)
   try {
     //importante - confirmar a exclusão
     // client é o nome da variavel que representa a janela 
-    const {response} = await dialog.showMessageBox(client, {
+    const { response } = await dialog.showMessageBox(client, {
       type: 'warning',
       title: "Atenção!",
       message: "Deseja excluir este cliente?\nEsta ação não poderá ser desfeita.",
-      buttons: ['Cancelar','Excluir'] // [0, 1]
+      buttons: ['Cancelar', 'Excluir'] // [0, 1]
     })
-    if (response === 1){
-      console.log("teste do if de excluir")
+    if (response === 1) {
+      console.log("Cliente excluido com sucesso!")
       // Passo 3 - Excluir o registro do cliente
       const delClient = await clientModel.findByIdAndDelete(id)
       event.reply('reset-form')
@@ -613,7 +613,61 @@ ipcMain.on('delete-client', async (event, id)=>{
   }
 })
 
-
-
 // == Fim - CRUD Delete ================
 // ==========================================
+
+
+
+
+// ==========================================
+// == CRUD Update =============================
+
+/*ipcMain.on('update-client', async (event, client) => {
+  console.log(client) // teste importante (recebimento dos dados do cliente)
+  try {
+    const updateClient = await clientModel.findByIdAndUpdate(
+      client.idCli,
+      {
+        nomeCliente: client.nameCli,
+        cpfCliente: client.cpfCli,
+        emailCliente: client.emailCli,
+        foneCliente: client.telefoneCli,
+        cepCliente: client.cepCli,
+        logradouroCliente: client.AddressCli,
+        numeroCliente: client.numeroCli,
+        complementoCliente: client.ComplementCli,
+        bairroCliente: client.bairroCli,
+        cidadeCliente: client.CityCli,
+        ufCliente: client.ufCli
+      },
+      {
+        new: true
+      }
+    )
+// console.log ("teste")
+    // confirmação
+
+    //Mensagem de confirmação
+    dialog.showMessageBox({
+      //Customização
+      type: 'info',
+      title: "Aviso",
+      message: "Dados do cliente alterados com sucesso",
+      buttons: ['OK']
+    }).then((result) => {
+      //ação ao precionar o botão 
+      if (result.response === 0) {
+        // enviar um pedido para o renderizador limpar os campos e resetar as 
+        // configurações pré definidas (rótulo) preload.js
+        event.reply('reset-form')
+      }
+
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// == Fim - CRUD Update ================
+// ==========================================*/
