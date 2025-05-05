@@ -362,7 +362,7 @@ ipcMain.on('new-os', async (event, OS) => {
       //Customização
       type: 'info',
       title: "Aviso",
-      message: "Cliente adicionado com sucesso",
+      message: "OS adicionada com sucesso",
       buttons: ['OK']
     }).then((result) => {
       //ação ao precionar o botão 
@@ -437,7 +437,7 @@ ipcMain.on('new-carro', async (event, car) => {
 async function relatorioClientes() {
   try {
     // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
-    const clientes = await clientModel.find().sort({ nomeClient: 1 })
+    const clientes = await clientModel.find().sort({ nomeCliente: 1 })
     // teste de recebimento da listagem de clientes
     //console.log(clientes)
     // Passo 2:Formatação do documento pdf
@@ -622,7 +622,7 @@ ipcMain.on('delete-client', async (event, id) => {
 // ==========================================
 // == CRUD Update =============================
 
-/*ipcMain.on('update-client', async (event, client) => {
+ipcMain.on('update-client', async (event, client) => {
   console.log(client) // teste importante (recebimento dos dados do cliente)
   try {
     const updateClient = await clientModel.findByIdAndUpdate(
@@ -670,4 +670,4 @@ ipcMain.on('delete-client', async (event, id) => {
 })
 
 // == Fim - CRUD Update ================
-// ==========================================*/
+// ==========================================

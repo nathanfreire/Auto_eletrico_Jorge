@@ -10,6 +10,10 @@ function buscarCEP() {
     fetch(urlAPI)
         .then(response => response.json())
         .then(dados => {
+            if (dados.erro) {
+                alert("CEP não encontrado.");
+                return;
+            }
             //console.log(dados.logradouro)
             //extração dos dados
             document.getElementById('inputAddressClient').value = dados.logradouro
@@ -19,9 +23,6 @@ function buscarCEP() {
         })
         .catch(error => console.log(error))
 }
-
-//vetor global que sera usado na manipulação dos dados
-let arrayClient = []
 
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
@@ -145,11 +146,12 @@ frmClient.addEventListener('submit', async (event) => {
     //evitar o comportamento padrao do submit que é enviar os dados do formulario e reiniciar o documento html
     event.preventDefault()
     //Teste importante ( recebimento dos dados do formulario - passo 1 do fluxo)
+    const cpfSemFormatacao = cpfClient.value.replace(/\D/g, "");
     console.log(nameClient.value, cpfClient.value, emailClient.value, telefoneClient.value, cepClient.value, AddressClient.value, numeroClient.value, ComplementClient.value, bairroClient.value, CityClient.value, ufClient.value, id.value);
 
     // estratégia usada para reutilizar o submit para criar um novo cliente ou alterar os dados de um cliente
     //se existir id significa que existe um cliente senão significa que é para adicionar um novo cliente
-    //if (id.value === "") {
+    if (id.value === "") {
         //executar o método para cadastrar um cliente 
         // Criar um objeto para armazenar os dados do cliente amtes de enviar ao main
         const client = {
@@ -168,9 +170,9 @@ frmClient.addEventListener('submit', async (event) => {
         // Enviar ao main o objeto client - (Passo 2: fluxo)
         // uso do preload.js
         api.newClient(client)
-    })
+    }
 
-  /*   else { 
+     else { 
         //executar o método para cadastrar um cliente 
         // Criar um objeto para armazenar os dados do cliente amtes de enviar ao main
         const client = {
@@ -192,7 +194,7 @@ frmClient.addEventListener('submit', async (event) => {
         api.updateClient(client)
     }
 
-})*/
+})
 
 
 // == fim CRUD Creat/Update ==============================

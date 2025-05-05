@@ -24,6 +24,4 @@ contextBridge.exposeInMainWorld('api', {
     setClient: (args) => ipcRenderer.on('set-client', args),
     deleteClient: (id) => ipcRenderer.send('delete-client', id),
     updateClient: (client) => ipcRenderer.send('update-client', client)
-    
-    
-})
+});
