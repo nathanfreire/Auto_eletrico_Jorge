@@ -38,7 +38,15 @@
                         <img src="../public/img/cliente.png" alt="lupa" width="20">
                     </span>
                 </div>
+                <!-- Lista de sugestões - estilo Google -->
+                 <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
             </div>
+
+            <!-- Id 
+            <div class="col-md-4">
+                <label for="inputIdClient" class="form-label">Id do cliente</label>
+                <input type="text" class="form-control" id="inputIdClient" spellcheck="false" maxlength="15" disabled>
+            </div> -->
 
             <!-- Nome -->
             <div class="col-md-5">
@@ -126,21 +134,22 @@
             </div>
 
             <!-- Linha -->
-            <hr class="mt-4 border border-secondary border -1">
+            <hr class="row mt-4 aling-itens-end">
 
-            <div class="mt-3">
-                <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
-                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
-                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+            <div class="mt-2 d-flex justify-content-center gap-1 aling-itens-center">
+                <button type="button" class="btn btn-success" id="btnCreate">Gerar OS</button>
+                <button type="button" class="btn btn-primary" onclick="inputOS()" >Buscar OS</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate">Editar OS</button>
+                <button type="button" class="btn btn-danger" id="btnDelete">Excluir OS</button>
+                <button type="button" class="btn btn-secondary">Imprimir OS</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
-             </div>
         </form>
     </div>
 
     <!-- Bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
     <!-- renderizador -->
-    <script src="rendererOS.js"></script>
+    <script src="rendererOS.js"></script> 
 </body>
 
 </html>

@@ -57,3 +57,60 @@ api.resetForm((args)=>{
 
 // == Fim - Reset form ===================================
 // =======================================================
+
+
+
+
+// =======================================================
+// == Buscar avançada - estilo Google =========================================
+
+// capturar os ids referente aos campos do nome 
+const input = document.getElementById('inputSearchClient')
+// capturar o id do ul da lista de sugestoes de clientes
+const suggestionList = document.getElementById('viewListSuggestion')
+// capturar os campos que vão ser preenchidos
+// let idClient = document.getElementById('inputIdClient')
+let nameClient = document.getElementById('inputNameClient')
+let phoneClient = document.getElementById('inputPhoneClient')
+let cpfClient = document.getElementById('inputCPFClient')
+
+// vetor usado na manipulação (filtragem) dos dados
+let arrayClient = []
+
+// captura em tempo real do input (digitação de caracteres na caixa de busca)
+input.addEventListener('input',() => {
+    // Passo 1: capturar o que for digitado na caixa de busca e converter tudo para letras minusculas (auxilio ao filtro)
+    const search = input.value.toLowerCase()
+    ///console.log(search) // teste de apoio a logica 
+
+    // passo 2: enviar ao main um pedido de busca de clientes pelo nome (via preload - api (IPC))
+    api.searchClients()
+
+    // Recebimentos dos clientes do banco de dados (passo 3)
+    api.listClients((event, clients) => {
+        console.log(clients) // teste do passo 3
+        // converter o vetor para JSON os dados dos clientes recebidos
+        const dataClients = JSON.parse(clients)
+        // armazenar no vetor os dados dos clientes
+        arrayClient = dataClients
+        // Passo 4: Filtrar todos os dados dos clientes extraindo nomes que tenham relação com os caracteres digitados na busca em tempo real 
+    })
+})
+
+// == Fim - Buscar avançada - estilo Google ===================================
+// =======================================================
+
+
+
+
+
+// =======================================================
+// == Buscar OS =========================================
+
+function inputOS() {
+    //console.log("teste")
+    api.searchOS()
+}
+
+// == Fim - Buscar OS ===================================
+// =======================================================
