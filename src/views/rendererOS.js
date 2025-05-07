@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnUpdate.disabled = true
     btnDelete.disabled = true
     // Foco na busca do cliente
-    foco.focus()
+    input.focus()
 })
 
 //captura dos dados dos inputs do formulario (passo 1 do fluxo)
@@ -19,11 +19,11 @@ let statusOS = document.getElementById('osStatus')
 // == CRUD Creat/Update ==================================
 
 // Evento associado ao botão submit (uso das validações do html)
-frmOS.addEventListener('submit', async (event) =>{
+frmOS.addEventListener('submit', async (event) => {
     //evitar o comportamento padrao do submit que é enviar os dados do formulario e reiniciar o documento html
     event.preventDefault()
     //Teste importante ( recebimento dos dados do formulario - passo 1 do fluxo)
-    console.log(descricaoOS.value, materialOS.value, dataOS.value, orcamentoOS.value, pagamentoOS.value, statusOS.value) 
+    console.log(descricaoOS.value, materialOS.value, dataOS.value, orcamentoOS.value, pagamentoOS.value, statusOS.value)
 
     // Criar um objeto para armazenar os dados do cliente amtes de enviar ao main
     const OS = {
@@ -36,21 +36,21 @@ frmOS.addEventListener('submit', async (event) =>{
     }
     // Enviar ao main o objeto client - (Passo 2: fluxo)
     // uso do preload.js
-    api.newOS(OS) 
-}) 
+    api.newOS(OS)
+})
 
 // == fim CRUD Creat/Update ==============================
 // =======================================================
 
 // =======================================================
 // == Reset form =========================================
-function resetForm(){
+function resetForm() {
     //Limpar os campos e resetar o formulario com as configurações pré definidas
     location.reload()
 }
 
 // Recebimento do pedido do main para resetar o formulario
-api.resetForm((args)=>{
+api.resetForm((args) => {
     resetForm()
 })
 
@@ -75,10 +75,10 @@ let phoneClient = document.getElementById('inputPhoneClient')
 let cpfClient = document.getElementById('inputCPFClient')
 
 // vetor usado na manipulação (filtragem) dos dados
-let arrayClient = []
+let arrayClients = []
 
 // captura em tempo real do input (digitação de caracteres na caixa de busca)
-input.addEventListener('input',() => {
+input.addEventListener('input', () => {
     // Passo 1: capturar o que for digitado na caixa de busca e converter tudo para letras minusculas (auxilio ao filtro)
     const search = input.value.toLowerCase()
     ///console.log(search) // teste de apoio a logica 
@@ -88,12 +88,31 @@ input.addEventListener('input',() => {
 
     // Recebimentos dos clientes do banco de dados (passo 3)
     api.listClients((event, clients) => {
-        console.log(clients) // teste do passo 3
+        ///console.log(clients) // teste do passo 3
         // converter o vetor para JSON os dados dos clientes recebidos
         const dataClients = JSON.parse(clients)
         // armazenar no vetor os dados dos clientes
-        arrayClient = dataClients
+        arrayClients = dataClients
         // Passo 4: Filtrar todos os dados dos clientes extraindo nomes que tenham relação com os caracteres digitados na busca em tempo real 
+        const results = arrayClients.filter(c =>
+            c.nomeCliente && c.nomeCliente.toLowerCase().includes(search)
+        ).slice(0, 10) // maximo 10 resultados
+        ///console.log(results) // IMPORTANTE para o entendimento
+        // Limpar a lista a cada caractere digitado
+        suggestionList.innerHTML = ""
+        // Para cada resultado gerar um item da lista <li>
+        results.forEach(c => {
+            // criar o elemento li
+            const item = document.createElement('li')
+            // Adicionar classes bootstrap a cada li criado 
+            item.classList.add('list-group-item','list-group-item-action')
+            // exibir nome do cliente
+            item.textContent = c.nomeCliente
+
+            // adicionar os lis criados a lista ul
+        suggestionList.appendChild(item)
+        })
+
     })
 })
 
