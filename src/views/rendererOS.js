@@ -96,7 +96,7 @@ input.addEventListener('input', () => {
         // Passo 4: Filtrar todos os dados dos clientes extraindo nomes que tenham relação com os caracteres digitados na busca em tempo real 
         const results = arrayClients.filter(c =>
             c.nomeCliente && c.nomeCliente.toLowerCase().includes(search)
-        ).slice(0, 10) // maximo 10 resultados
+        ).slice(0, 6) // maximo 10 resultados
         ///console.log(results) // IMPORTANTE para o entendimento
         // Limpar a lista a cada caractere digitado
         suggestionList.innerHTML = ""
@@ -105,15 +105,34 @@ input.addEventListener('input', () => {
             // criar o elemento li
             const item = document.createElement('li')
             // Adicionar classes bootstrap a cada li criado 
-            item.classList.add('list-group-item','list-group-item-action')
+            item.classList.add('list-group-item', 'list-group-item-action')
             // exibir nome do cliente
             item.textContent = c.nomeCliente
 
             // adicionar os lis criados a lista ul
-        suggestionList.appendChild(item)
+            suggestionList.appendChild(item)
+
+            // adicionar um evento de click no item da lista para prencher os campos do formulario
+            item.addEventListener('click', () => {
+                //idClient.value = c._id
+                nameClient.value = c.nomeCliente
+                phoneClient.value = c.foneCliente
+                cpfClient.value = c.cpfCliente
+                // limpar o input e recolher a lista
+                input.value = ""
+                suggestionList.innerHTML = "" 
+            })
         })
 
     })
+})
+
+// Ocultar a lista ao clicar fora
+document.addEventListener('click', (event) => {
+    // ocultar a lista se ela existir e estiver ativa
+    if (!input.contains(event.target) && !suggestionList.contains(event.target)) {
+        suggestionList.innerHTML = ""
+    }
 })
 
 // == Fim - Buscar avançada - estilo Google ===================================

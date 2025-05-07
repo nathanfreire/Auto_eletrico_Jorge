@@ -67,3 +67,10 @@ footer p {
 body {
     background-color: #dce5b3;
 }
+
+
+/* lista de clientes vinculados a OS */
+#viewListSuggestion {
+    z-index: 2;
+    max-width: 382px;
+}
