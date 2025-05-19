@@ -292,6 +292,7 @@ ipcMain.on('new-client', async (event, client) => {
   // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
   try {
     const newClient = new clientModel({
+      idCliente: client.idCli,
       nomeCliente: client.nameCli,
       cpfCliente: client.cpfCli,
       emailCliente: client.emailCli,

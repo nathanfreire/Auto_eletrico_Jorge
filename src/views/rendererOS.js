@@ -96,6 +96,8 @@ let arrayOS = []
 
 //captura dos dados dos inputs do formulario (passo 1 do fluxo)
 let frmOS = document.getElementById('frmOS')
+let IdC = document.getElementById('inputIdClient')
+
 let descricaoOS = document.getElementById('serviceDescription')
 let materialOS = document.getElementById('inputPecasClient')
 let dataOS = document.getElementById('inputconclusãoClient')
@@ -170,7 +172,7 @@ api.renderOS((event, dataOS) => {
         second: "2-digit"
     })
     dateOS.value = formatada
-    idClient.value = os.idCliente
+    IdC.value = os.idCliente
     descricaoOS.value = os.descricao
     materialOS.value = os.material
     dataOS.value = os.data
