@@ -7,22 +7,29 @@ const { model, Schema } = require('mongoose')
 
 // criação da estrutura da coleção OS
 const osSchema = new Schema ({
-    descricaoOS: {
+    dataEntrada: {
+        type: Date,
+        default: Date.now
+    },
+    idCliente: {
+        type: String,        
+    },
+    descricao: {
         type: String
     },
-    materialOS: {
+    material: {
         type: String
     },
-    dataOS: {
+    data: {
         type: String
     },
-    orcamentoOS: {
+    orcamento: {
         type: String
     },
-    pagamentoOS: {
+    pagamento: {
         type: String
     },
-    statusOS: {
+    status: {
         type: String
     }
 }, {versionKey: false}) // não versionar os dados armazenados 

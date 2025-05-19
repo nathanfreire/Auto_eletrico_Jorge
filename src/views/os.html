@@ -20,65 +20,68 @@
             <!-- OS -->
             <div class="col-md-4">
                 <label class="form-label">Nº OS</label>
-                <input type="text" class="form-control" id="txtOs" disabled>
+                <input type="text" class="form-control" id="inputOS" disabled>
             </div>
 
             <!-- Data -->
             <div class="col-md-3">
-                <label class="form-label">Data</label>
+                <label class="form-label">Data de entrada</label>
                 <input type="text" class="form-control" id="txtData" disabled>
             </div>
 
             <!-- Buscar cliente -->
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <label for="inputSearchClient" class="form-label">Buscar Cliente</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="inputSearchClient" spellcheck="false" required maxlength="30">
+                    <input type="text" class="form-control" id="inputSearchClient" spellcheck="false" maxlength="30">
                     <span class="input-group-text">
-                        <img src="../public/img/cliente.png" alt="lupa" width="20">
+                        <img src="../public/img/lupa.png" alt="lupa" width="20">
                     </span>
                 </div>
                 <!-- Lista de sugestões - estilo Google -->
                  <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
             </div>
 
-            <!-- Id 
-            <div class="col-md-4">
+            <!-- Id -->
+            <div class="col-md-3">
                 <label for="inputIdClient" class="form-label">Id do cliente</label>
                 <input type="text" class="form-control" id="inputIdClient" spellcheck="false" maxlength="15" disabled>
-            </div> -->
+            </div> 
 
             <!-- Nome -->
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <label for="inputNameClient" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="inputNameClient" spellcheck="false" maxlength="30" disabled>
             </div>
 
             <!-- Telefone -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="inputPhoneClient" class="form-label">Telefone</label>
                 <input type="text" class="form-control" id="inputPhoneClient" spellcheck="false" maxlength="15"
                     disabled>
             </div>
 
-            <!-- CPF -->
-            <div class="col-md-4">
+            <input type="text" id="idClient"> <!-- oculto -->
+
+             <!--CPF--> 
+            <div class="col-md-4 ">
                 <label for="inputCPFClient" class="form-label">CPF</label>
                 <input type="text" class="form-control" id="inputCPFClient" spellcheck="false" maxlength="15" disabled>
-            </div>
+            </div> 
 
             <!-- Linha -->
             <hr class="mt-4 border border-secondary border -1">
+         
 
             <!-- Descrição do Serviço -->
             <div class="col-md-12">
-                <label for="serviceDescription" class="form-label">Descrição do Serviço</label>
+                <label for="serviceDescription" class="form-label">Descrição do Serviço / Estado do Veiculo</label>
                 <textarea class="form-control" id="serviceDescription" rows="3" maxlength="200" required></textarea>
             </div>
             
             <!-- Materiais utilizados -->
             <div class="col-md-12">
-                <label for="inputPecasClient" class="form-label">Materiais utilizados</label>
+                <label for="inputPecasClient" class="form-label">Peças trocadas</label>
                 <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required maxlength="60">
                </div>
 
@@ -107,19 +110,6 @@
                 </select>
                </div>
 
-            <!-- Assinaturas 
-            <div class="col-md-3">
-                <label for="inputAssinaturasClient" class="form-label">Assinaturas Cliente</label>
-                <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
-               </div> -->
-
-               <!-- Assinaturas 
-            <div class="col-md-3">
-                <label for="inputAssinaturasClient" class="form-label">Assinaturas Oficina</label>
-                <input type="text" class="form-control" id="inputAssinaturasClient" spellcheck="false" maxlength="20">
-               </div> 
-            -->
-
                <!-- Status -->
             <div class="col-md-3">
                 <label class="form-label">Status da OS</label>
@@ -136,10 +126,10 @@
             <!-- Linha -->
             <hr class="row mt-4 aling-itens-end">
 
-            <div class="mt-2 d-flex justify-content-center gap-1 aling-itens-center">
-                <button type="button" class="btn btn-success" id="btnCreate">Gerar OS</button>
-                <button type="button" class="btn btn-primary" onclick="inputOS()" >Buscar OS</button>
-                <button type="button" class="btn btn-warning" id="btnUpdate">Editar OS</button>
+            <div class="mt-2 justify-content-center gap-1 aling-itens-center">
+                <button type="submit" class="btn btn-success" id="btnCreate">Gerar OS</button>
+                <button type="button" class="btn btn-primary" onclick="findOS()" >Buscar OS</button>
+                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar OS</button>
                 <button type="button" class="btn btn-danger" id="btnDelete">Excluir OS</button>
                 <button type="button" class="btn btn-secondary">Imprimir OS</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>

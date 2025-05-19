@@ -8,6 +8,9 @@ const path = require('node:path')
 // Importação dos metodos conectar e desconectar (modulo de conexão)
 const { conectar, desconectar } = require('./database')
 
+// importar mongoose (validação do id na OS)
+const mongoose = require('mongoose')
+
 // importar do Schema Clientes da camada model
 const clientModel = require('./src/models/Clientes.js')
 
@@ -285,7 +288,7 @@ ipcMain.on('carro-window', () => {
 // recebimento do objeto que contem os dados do cliente
 ipcMain.on('new-client', async (event, client) => {
   // Importante! Teste de recebimento dos dados do cliente
-  // console.log(client)
+  console.log(client)
   // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
   try {
     const newClient = new clientModel({
@@ -338,55 +341,6 @@ ipcMain.on('new-client', async (event, client) => {
 })
 // -- Fim - Cliente - CRUD Create ===========
 // ==========================================
-
-
-
-
-// ==========================================
-// == OS - CRUD Create ================
-// recebimento do objeto que contem os dados do cliente
-ipcMain.on('new-os', async (event, OS) => {
-  // Importante! Teste de recebimento dos dados do cliente
-  console.log(OS)
-  // console.log("teste")
-  // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
-  try {
-    const newOS = new osModel({
-      descricaoOS: OS.desOS,
-      materialOS: OS.matOS,
-      dataOS: OS.datOS,
-      orcamentoOS: OS.orcOS,
-      pagamentoOS: OS.pagOS,
-      statusOS: OS.staOS
-    })
-    // salvar os dados do cliente no banco de dados
-    await newOS.save()
-    //Mensagem de confirmação
-    dialog.showMessageBox({
-      //Customização
-      type: 'info',
-      title: "Aviso",
-      message: "OS adicionada com sucesso",
-      buttons: ['OK']
-    }).then((result) => {
-      //ação ao precionar o botão 
-      if (result.response === 0) {
-        // enviar um pedido para o renderizador limpar os campos e resetar as 
-        // configurações pré definidas (rótulo) preload.js
-        event.reply('reset-form')
-      }
-
-    })
-
-  } catch (error) {
-    console.log(error)
-  }
-})
-// -- Fim - OS - CRUD Create ===========
-// ==========================================
-
-
-
 
 // ==========================================
 // == Veiculo - CRUD Create ================
@@ -558,7 +512,7 @@ ipcMain.on('search-name', async (event, name) => {
     // melhoria d eexperiencia do usuario (se o cliente nao estiver cadastrado, alertar o usuario e questionar se ele
     // quer cadastrar este novo cliente. Se não quiser cadastrar, limpar os campos, se quiser cadastrar recortar o nome do cliente do campo de busca e colar no campo nome)
 
-    // se o vetor estiver vazio []
+    // se o vetor estiver vazio [] (cliente não cadastrado)
     if (dataClient.length === 0) {
       dialog.showMessageBox({
         type: 'warning',
@@ -684,37 +638,7 @@ ipcMain.on('update-client', async (event, client) => {
 //*******************  Ordem de Serviço  *********************/
 //************************************************************/
 
-
-// ============================================================
-// == Buscar OS ===============================================
-
-ipcMain.on('search-os', (event) => {
-  //console.log("teste: busca OS")
-  prompt({
-    title: 'Buscar OS',
-    label: 'Digite o número da OS:',
-    inputAttrs: {
-      type: 'text'
-    },
-    type: 'input',
-    width: 400,
-    height: 200
-  }).then((result) => {
-    if (result !== null) {
-      console.log(result)
-      //buscar a os no banco pesquisando pelo valor do result (número da OS)
-
-    }
-  })
-})
-
-// == Fim - Buscar OS =========================================
-// ============================================================
-
-
-
-
-// ============================================================================================================
+// ===============
 // == Buscar cliente para vincular na OS (buscar estilo Google) ===============================================
 
 ipcMain.on('search-clients', async (event) => {
@@ -735,4 +659,119 @@ ipcMain.on('search-clients', async (event) => {
 })
 
 // == Fim - Buscar cliente para vincular na OS (buscar estilo Google) =========================================
-// ============================================================================================================
+// ==========================
+
+
+
+// ==========================================
+// == OS - CRUD Create ================
+
+// Validação de busca (preenchimento obrigatório Id Cliente-OS)
+ipcMain.on('validate-client', (event) => {
+  dialog.showMessageBox({
+      type: 'warning',
+      title: "Aviso!",
+      message: "É obrigatório vincular o cliente na Ordem de Serviço",
+      buttons: ['OK']
+  }).then((result) => {
+      //ação ao pressionar o botão (result = 0)
+      if (result.response === 0) {
+          event.reply('set-search')
+      }
+  })
+})
+
+// recebimento do objeto que contem os dados do cliente
+ipcMain.on('new-os', async (event, os) => {
+  // Importante! Teste de recebimento dos dados do cliente
+  console.log(os)
+    console.log("teste")
+  // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
+  try {
+    const newOS = new osModel({
+      idCliente: os.idClient_OS,
+      descricao: os.desOS,
+      material: os.matOS,
+      data: os.datOS,
+      orcamento: os.orcOS,
+      pagamento: os.pagOS,
+      status: os.staOS
+    })
+    // salvar os dados do cliente no banco de dados
+    await newOS.save()
+    //Mensagem de confirmação
+    dialog.showMessageBox({
+      //Customização
+      type: 'info',
+      title: "Aviso",
+      message: "OS adicionada com sucesso",
+      buttons: ['OK']
+    }).then((result) => {
+      //ação ao precionar o botão 
+      if (result.response === 0) {
+        // enviar um pedido para o renderizador limpar os campos e resetar as 
+        // configurações pré definidas (rótulo) preload.js
+        event.reply('reset-form')
+      }
+
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+// -- Fim - OS - CRUD Create ===========
+// ==========================================
+
+
+
+// ============================================================
+// == Buscar OS ===============================================
+
+ipcMain.on('search-os', async (event) => {
+  prompt({
+      title: 'Buscar OS',
+      label: 'Digite o número da OS:',
+      inputAttrs: {
+          type: 'text'
+      },
+      type: 'input',
+      width: 400,
+      height: 200
+  }).then(async (result) => {
+      // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
+      if (result !== null) {
+          // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
+          if (mongoose.Types.ObjectId.isValid(result)) {
+              try {
+                  const dataOS = await osModel.findById(result)
+                  if (dataOS) {
+                      console.log(dataOS) // teste importante
+                      // enviando os dados da OS ao rendererOS
+                      // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataOS)
+                      event.reply('render-os', JSON.stringify(dataOS))
+                  } else {
+                      dialog.showMessageBox({
+                          type: 'warning',
+                          title: "Aviso!",
+                          message: "OS não encontrada",
+                          buttons: ['OK']
+                      })
+                  }
+              } catch (error) {
+                  console.log(error)
+              }
+          } else {
+              dialog.showMessageBox({
+                  type: 'error',
+                  title: "Atenção!",
+                  message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
+                  buttons: ['OK']
+              })
+          }
+      }
+  })
+})
+
+// == Fim - Buscar OS =========================================
+// ============================================================
