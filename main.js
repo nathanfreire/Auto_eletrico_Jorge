@@ -221,10 +221,12 @@ const template = [
         click: () => relatorioClientes()
       },
       {
-        label: "OS abertas"
+        label: "OS abertas",
+        click: () => relatorioOsAbertas()
       },
       {
-        label: "OS concluídas"
+        label: "OS concluídas",
+        click: () => relatorioOsConcluidas()
       }
     ]
   },
@@ -475,6 +477,154 @@ async function relatorioClientes() {
 // == Fim do Relatorio de Clientes ================
 // ==========================================
 
+
+// ==========================================
+// == Relatorio da OS Aberta ================
+
+async function relatorioOsAbertas() {
+  try {
+    
+    const clientes = await osModel.find({ stats: 'Aberta' }).sort({ Aberta: 1 })
+
+    const doc = new jsPDF('p', 'mm', 'a4')
+
+    const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logoJorge.png')
+    const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+    doc.addImage(imageBase64, 'PNG', 20, 8) //(5mm, 8mm x,y)
+
+    doc.setFontSize(18)
+
+    doc.text("Relatório de Ordem de Serviços", 14, 45)//x,y (mm) 
+
+    const dataAtual = new Date().toLocaleDateString('pt-BR')
+    doc.setFontSize(12)
+    doc.text(`Data: ${dataAtual}`, 160, 10)
+
+    let y = 60
+    doc.text("Nome do Cliente", 14, y)
+    doc.text("Orçamento", 70, y)
+    doc.text("Status", 120, y)
+    y += 5
+
+    doc.setLineWidth(0.5) // expessura da linha
+    doc.line(10, y, 200, y) // inicio e fim
+
+    y += 10 // espaçãmento da linha
+
+    clientes.forEach((c) => {
+      
+      if (y > 280) {
+        doc.addPage()
+        y = 20
+        doc.text("Nome do Cliente", 14, y)
+        doc.text("Orçamento", 70, y)
+        doc.text("Status", 120, y)
+        y += 5
+        doc.setLineWidth(0.5)
+        doc.line(10, y, 200, y)
+        y += 10
+      }
+    
+      doc.text(c.idCliente || "N/A", 14, y)
+      doc.text(c.orcamento || "N/A", 70, y)
+      doc.text(c.status || "N/A", 120, y)
+      y += 10
+    })
+
+    const paginas = doc.internal.getNumberOfPages()
+    for (let i = 1; i <= paginas; i++) {
+      doc.setPage(i)
+      doc.setFontSize(10)
+      doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+    }
+
+    const tempDir = app.getPath('temp')
+    const filePath = path.join(tempDir, 'ordemservico.pdf')
+
+    doc.save(filePath)
+
+    shell.openPath(filePath)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// ==================== fim relatorio da os aberta ===============
+
+
+// ==========================================
+// == Relatorio da OS Concluida ================
+
+async function relatorioOsConcluidas() {
+  try {
+    
+    const clientes = await osModel.find({ stats: 'Finalizada' }).sort({ Finalizada: 1 })
+
+    const doc = new jsPDF('p', 'mm', 'a4')
+
+    const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logoJorge.png')
+    const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+    doc.addImage(imageBase64, 'PNG', 20, 8) //(5mm, 8mm x,y)
+
+    doc.setFontSize(18)
+
+    doc.text("Relatório de Ordem de Serviços", 14, 45)//x,y (mm) 
+
+    const dataAtual = new Date().toLocaleDateString('pt-BR')
+    doc.setFontSize(12)
+    doc.text(`Data: ${dataAtual}`, 160, 10)
+
+    let y = 60
+    doc.text("Nome do Cliente", 14, y)
+    doc.text("Orçamento", 70, y)
+    doc.text("Status", 120, y)
+    y += 5
+
+    doc.setLineWidth(0.5) // expessura da linha
+    doc.line(10, y, 200, y) // inicio e fim
+
+    y += 10 // espaçãmento da linha
+
+    clientes.forEach((c) => {
+      
+      if (y > 280) {
+        doc.addPage()
+        y = 20
+        doc.text("Nome do Cliente", 14, y)
+        doc.text("Orçamento", 70, y)
+        doc.text("Status", 120, y)
+        y += 5
+        doc.setLineWidth(0.5)
+        doc.line(10, y, 200, y)
+        y += 10
+      }
+    
+      doc.text(c.idCliente || "N/A", 14, y)
+      doc.text(c.orcamento || "N/A", 70, y)
+      doc.text(c.status || "N/A", 120, y)
+      y += 10
+    })
+
+    const paginas = doc.internal.getNumberOfPages()
+    for (let i = 1; i <= paginas; i++) {
+      doc.setPage(i)
+      doc.setFontSize(10)
+      doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+    }
+
+    const tempDir = app.getPath('temp')
+    const filePath = path.join(tempDir, 'ordemservico.pdf')
+
+    doc.save(filePath)
+
+    shell.openPath(filePath)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// ==========================================
+// == fim relatorio da OS concluida =============================
 
 
 // ==========================================

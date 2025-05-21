@@ -14,6 +14,9 @@ const osSchema = new Schema ({
     idCliente: {
         type: String,        
     },
+    nome: {
+        type: String,        
+    },
     descricao: {
         type: String
     },
