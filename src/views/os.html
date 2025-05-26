@@ -39,14 +39,14 @@
                     </span>
                 </div>
                 <!-- Lista de sugestões - estilo Google -->
-                 <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
+                <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
             </div>
 
             <!-- Id -->
             <div class="col-md-3">
                 <label for="inputIdClient" class="form-label">Id do cliente</label>
                 <input type="text" class="form-control" id="inputIdClient" spellcheck="false" maxlength="15" disabled>
-            </div> 
+            </div>
 
             <!-- Nome -->
             <div class="col-md-3">
@@ -63,44 +63,48 @@
 
             <input type="text" id="idClient"> <!-- oculto -->
 
-             <!--CPF--> 
+            <!--CPF-->
             <div class="col-md-4 ">
                 <label for="inputCPFClient" class="form-label">CPF</label>
                 <input type="text" class="form-control" id="inputCPFClient" spellcheck="false" maxlength="15" disabled>
-            </div> 
+            </div>
 
             <!-- Linha -->
             <hr class="mt-4 border border-secondary border -1">
-         
+
 
             <!-- Descrição do Serviço -->
             <div class="col-md-12">
                 <label for="serviceDescription" class="form-label">Descrição do Serviço / Estado do Veiculo</label>
                 <textarea class="form-control" id="serviceDescription" rows="3" maxlength="200" required></textarea>
             </div>
-            
+
             <!-- Materiais utilizados -->
             <div class="col-md-12">
                 <label for="inputPecasClient" class="form-label">Peças trocadas</label>
-                <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required maxlength="60">
-               </div>
+                <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required
+                    maxlength="60">
+            </div>
 
-                <!-- Data de conclusão -->
+            <!-- Data de conclusão -->
             <div class="col-md-3">
                 <label for="inputconclusãoClient" class="form-label">Data de conclusão</label>
-                <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required maxlength="30">
-               </div>
+                <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required
+                    maxlength="30">
+            </div>
 
-               <!-- Orçamento do serviço -->
+            <!-- Orçamento do serviço -->
             <div class="col-md-3">
                 <label for="inputOrcamentoClient" class="form-label">Orçamento do serviço</label>
-                <input type="text" class="form-control" id="inputOrcamentoClient" spellcheck="false" required maxlength="30">
-               </div>
+                <input type="text" class="form-control" id="inputOrcamentoClient" spellcheck="false" required
+                    maxlength="30">
+            </div>
 
-               <!-- Forma de pagamento -->
+            <!-- Forma de pagamento -->
             <div class="col-md-3">
                 <label for="inputpagamentoClient" class="form-label">Forma de pagamento</label>
-                <select type="text" class="form-select" id="inputpagamentoClient" spellcheck="false" required maxlength="20">
+                <select type="text" class="form-select" id="inputpagamentoClient" spellcheck="false" required
+                    maxlength="20">
                     <option value=""></option>
                     <option>Pix</option>
                     <option>Cartão Débito</option>
@@ -108,9 +112,9 @@
                     <option>Dinheiro</option>
                     <option>Boleto</option>
                 </select>
-               </div>
+            </div>
 
-               <!-- Status -->
+            <!-- Status -->
             <div class="col-md-3">
                 <label class="form-label">Status da OS</label>
                 <select class="form-select" id="osStatus">
@@ -128,10 +132,10 @@
 
             <div class="mt-2 justify-content-center gap-1 aling-itens-center">
                 <button type="submit" class="btn btn-success" id="btnCreate">Gerar OS</button>
-                <button type="button" class="btn btn-primary" onclick="findOS()" >Buscar OS</button>
+                <button type="button" class="btn btn-primary" onclick="findOS()">Buscar OS</button>
                 <button type="submit" class="btn btn-warning" id="btnUpdate">Editar OS</button>
                 <button type="button" class="btn btn-danger" id="btnDelete">Excluir OS</button>
-                <button type="button" class="btn btn-secondary">Imprimir OS</button>
+                <button type="button" class="btn btn-secondary" onclick="generateOS()">Imprimir OS</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
         </form>
     </div>
@@ -139,7 +143,7 @@
     <!-- Bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
     <!-- renderizador -->
-    <script src="rendererOS.js"></script> 
+    <script src="rendererOS.js"></script>
 </body>
 
 </html>

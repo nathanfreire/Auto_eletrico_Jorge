@@ -29,5 +29,6 @@ contextBridge.exposeInMainWorld('api', {
     searchClients: (clients) => ipcRenderer.send('search-clients', clients),
     listClients: (clients) => ipcRenderer.on('list-clients', clients),
     validateClient: () => ipcRenderer.send('validate-client'),
-    renderOS: (dataOS) => ipcRenderer.on('render-os', dataOS)
+    renderOS: (dataOS) => ipcRenderer.on('render-os', dataOS),
+    printOS: () => ipcRenderer.send('print-os')
 });

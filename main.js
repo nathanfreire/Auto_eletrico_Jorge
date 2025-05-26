@@ -483,7 +483,7 @@ async function relatorioClientes() {
 
 async function relatorioOsAbertas() {
   try {
-    
+
     const clientes = await osModel.find({ stats: 'Aberta' }).sort({ Aberta: 1 })
 
     const doc = new jsPDF('p', 'mm', 'a4')
@@ -512,7 +512,7 @@ async function relatorioOsAbertas() {
     y += 10 // espaçãmento da linha
 
     clientes.forEach((c) => {
-      
+
       if (y > 280) {
         doc.addPage()
         y = 20
@@ -524,7 +524,7 @@ async function relatorioOsAbertas() {
         doc.line(10, y, 200, y)
         y += 10
       }
-    
+
       doc.text(c.idCliente || "N/A", 14, y)
       doc.text(c.orcamento || "N/A", 70, y)
       doc.text(c.status || "N/A", 120, y)
@@ -557,7 +557,7 @@ async function relatorioOsAbertas() {
 
 async function relatorioOsConcluidas() {
   try {
-    
+
     const clientes = await osModel.find({ stats: 'Finalizada' }).sort({ Finalizada: 1 })
 
     const doc = new jsPDF('p', 'mm', 'a4')
@@ -586,7 +586,7 @@ async function relatorioOsConcluidas() {
     y += 10 // espaçãmento da linha
 
     clientes.forEach((c) => {
-      
+
       if (y > 280) {
         doc.addPage()
         y = 20
@@ -598,7 +598,7 @@ async function relatorioOsConcluidas() {
         doc.line(10, y, 200, y)
         y += 10
       }
-    
+
       doc.text(c.idCliente || "N/A", 14, y)
       doc.text(c.orcamento || "N/A", 70, y)
       doc.text(c.status || "N/A", 120, y)
@@ -820,15 +820,15 @@ ipcMain.on('search-clients', async (event) => {
 // Validação de busca (preenchimento obrigatório Id Cliente-OS)
 ipcMain.on('validate-client', (event) => {
   dialog.showMessageBox({
-      type: 'warning',
-      title: "Aviso!",
-      message: "É obrigatório vincular o cliente na Ordem de Serviço",
-      buttons: ['OK']
+    type: 'warning',
+    title: "Aviso!",
+    message: "É obrigatório vincular o cliente na Ordem de Serviço",
+    buttons: ['OK']
   }).then((result) => {
-      //ação ao pressionar o botão (result = 0)
-      if (result.response === 0) {
-          event.reply('set-search')
-      }
+    //ação ao pressionar o botão (result = 0)
+    if (result.response === 0) {
+      event.reply('set-search')
+    }
   })
 })
 
@@ -836,7 +836,7 @@ ipcMain.on('validate-client', (event) => {
 ipcMain.on('new-os', async (event, os) => {
   // Importante! Teste de recebimento dos dados do cliente
   console.log(os)
-    console.log("teste")
+  console.log("teste")
   // cadastrar a estrutura de dados no banco de dados usando a classe modelo. Atenção!! os atributos precisam ser identicos ao modelo de dados Clientes.js eos valores sao definidos pelo conteudo do objeto cliente 
   try {
     const newOS = new osModel({
@@ -881,48 +881,109 @@ ipcMain.on('new-os', async (event, os) => {
 
 ipcMain.on('search-os', async (event) => {
   prompt({
-      title: 'Buscar OS',
-      label: 'Digite o número da OS:',
-      inputAttrs: {
-          type: 'text'
-      },
-      type: 'input',
-      width: 400,
-      height: 200
+    title: 'Buscar OS',
+    label: 'Digite o número da OS:',
+    inputAttrs: {
+      type: 'text'
+    },
+    type: 'input',
+    width: 400,
+    height: 200
   }).then(async (result) => {
-      // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
-      if (result !== null) {
-          // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
-          if (mongoose.Types.ObjectId.isValid(result)) {
-              try {
-                  const dataOS = await osModel.findById(result)
-                  if (dataOS) {
-                      console.log(dataOS) // teste importante
-                      // enviando os dados da OS ao rendererOS
-                      // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataOS)
-                      event.reply('render-os', JSON.stringify(dataOS))
-                  } else {
-                      dialog.showMessageBox({
-                          type: 'warning',
-                          title: "Aviso!",
-                          message: "OS não encontrada",
-                          buttons: ['OK']
-                      })
-                  }
-              } catch (error) {
-                  console.log(error)
-              }
+    // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
+    if (result !== null) {
+      // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
+      if (mongoose.Types.ObjectId.isValid(result)) {
+        try {
+          const dataOS = await osModel.findById(result)
+          if (dataOS) {
+            console.log(dataOS) // teste importante
+            // enviando os dados da OS ao rendererOS
+            // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataOS)
+            event.reply('render-os', JSON.stringify(dataOS))
           } else {
-              dialog.showMessageBox({
-                  type: 'error',
-                  title: "Atenção!",
-                  message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
-                  buttons: ['OK']
-              })
+            dialog.showMessageBox({
+              type: 'warning',
+              title: "Aviso!",
+              message: "OS não encontrada",
+              buttons: ['OK']
+            })
           }
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        dialog.showMessageBox({
+          type: 'error',
+          title: "Atenção!",
+          message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
+          buttons: ['OK']
+        })
       }
+    }
   })
 })
 
 // == Fim - Buscar OS =========================================
+// ============================================================
+
+
+//  ==================================================
+// =================== Imprimir OS  ===================
+
+
+ipcMain.on('print-os', async (event) => {
+  prompt({
+    title: 'Imprimir OS',
+    label: 'Digite o número da OS:',
+    inputAttrs: {
+      type: 'text'
+    },
+    type: 'input',
+    width: 400,
+    height: 200
+  }).then(async (result) => {
+    // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
+    if (result !== null) {
+      // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
+      if (mongoose.Types.ObjectId.isValid(result)) {
+        try {
+          // teste importatante
+          //console.log("imprimir OS")
+
+          const dataOS = await osModel.findById(result)
+          if (dataOS) {
+            console.log(dataOS) // teste importante
+            // extrair os dados do cliente
+            const dataClient = await clientModel.find({
+              _id: dataOS.idCliente
+            })
+            console.log(dataClient)
+            // impressao (ducumento PDF) com os dados da OS, do cliente e termos do serviço (uso do jspdf)
+          } else {
+            dialog.showMessageBox({
+              type: 'warning',
+              title: "Aviso!",
+              message: "OS não encontrada",
+              buttons: ['OK']
+            })
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        dialog.showMessageBox({
+          type: 'error',
+          title: "Atenção!",
+          message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
+          buttons: ['OK']
+        })
+      }
+    }
+  })
+})
+
+
+
+// == Fim - Imprimir OS =========================================
 // ============================================================
