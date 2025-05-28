@@ -139,7 +139,19 @@ frmOS.addEventListener('submit', async (event) => {
             api.newOS(OS)
         } else {
             //Editar OS
-
+            const os = {
+            id_OS: idOS.value,
+            idClient_OS: idClient.value,
+            desOS: descricaoOS.value,
+            matOS: materialOS.value,
+            datOS: dataOS.value,
+            orcOS: orcamentoOS.value,
+            pagOS: pagamentoOS.value,
+            staOS: statusOS.value
+            }
+            // Enviar ao main o objeto os - (Passo 2: fluxo)
+            // uso do preload.js
+            api.updateOS(os)
         }
     }
 })
@@ -183,6 +195,17 @@ api.renderOS((event, dataOS) => {
 })
 // == Fim - Buscar OS ===================================
 // =======================================================
+
+// ============================================================
+// == CRUD Delete =============================================
+
+function removeOS() {
+    console.log(idOS.value) // Passo 1 (receber do form o id da OS)
+    api.deleteOS(idOS.value) // Passo 2 (enviar o id da OS ao main)
+}
+
+// == Fim - CRUD Delete =======================================
+// ============================================================
 
 
 // =======================================================

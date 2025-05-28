@@ -987,3 +987,76 @@ ipcMain.on('print-os', async (event) => {
 
 // == Fim - Imprimir OS =========================================
 // ============================================================
+
+// ============================================================
+// == Excluir OS - CRUD Delete  ===============================
+
+ipcMain.on('delete-os', async (event, idOS) => {
+  console.log(idOS) // teste do passo 2 (recebimento do id)
+  try {
+      //importante - confirmar a exclusão
+      //osScreen é o nome da variável que representa a janela OS
+      const { response } = await dialog.showMessageBox(os, {
+          type: 'warning',
+          title: "Atenção!",
+          message: "Deseja excluir esta ordem de serviço?\nEsta ação não poderá ser desfeita.",
+          buttons: ['Cancelar', 'Excluir'] //[0, 1]
+      })
+      if (response === 1) {
+          //console.log("teste do if de excluir")
+          //Passo 3 - Excluir a OS
+          const delOS = await osModel.findByIdAndDelete(idOS)
+          event.reply('reset-form')
+      }
+  } catch (error) {
+      console.log(error)
+  }
+})
+
+// == Fim Excluir OS - CRUD Delete ============================
+// ============================================================
+
+
+ipcMain.on('update-os', async (event, os) => {
+  //importante! teste de recebimento dos dados da os (passo 2)
+  console.log(os)
+  // Alterar os dados da OS no banco de dados MongoDB
+  try {
+      // criar uma nova de estrutura de dados usando a classe modelo. Atenção! Os atributos precisam ser idênticos ao modelo de dados OS.js e os valores são definidos pelo conteúdo do objeto os
+      const updateOS = await osModel.findByIdAndUpdate(
+          os.id_OS,
+          {
+            idCliente: os.idClient_OS,
+            descricao: os.desOS,
+            material: os.matOS,
+            data: os.datOS,
+            orcamento: os.orcOS,
+            pagamento: os.pagOS,
+            status: os.staOS
+          },
+          {
+              new: true
+          }
+      )
+      // Mensagem de confirmação
+      dialog.showMessageBox({
+          //customização
+          type: 'info',
+          title: "Aviso",
+          message: "Dados da OS alterados com sucesso",
+          buttons: ['OK']
+      }).then((result) => {
+          //ação ao pressionar o botão (result = 0)
+          if (result.response === 0) {
+              //enviar um pedido para o renderizador limpar os campos e resetar as configurações pré definidas (rótulo 'reset-form' do preload.js
+              event.reply('reset-form')
+          }
+      })
+  } catch (error) {
+      console.log(error)
+  }
+})
+
+// == Fim Editar OS - CRUD Update =============================
+// ============================================================
+
