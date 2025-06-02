@@ -1,11 +1,7 @@
-/**
- * Modelo de dados para construção de coleções ("tabelas")
- */
 
-// Importação dos recursos do framework mongoose 
 const { model, Schema } = require('mongoose')
 
-// criação da estrutura da coleção OS
+
 const osSchema = new Schema ({
     dataEntrada: {
         type: Date,
@@ -35,9 +31,9 @@ const osSchema = new Schema ({
     status: {
         type: String
     }
-}, {versionKey: false}) // não versionar os dados armazenados 
+}, {versionKey: false}) 
 
-// exportar para o main o moulo de dados
-//OBS: Clientes será o nome da coleção "tabelas"
+
+
 
 module.exports = model('OS', osSchema)

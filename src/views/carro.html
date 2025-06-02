@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro do Veículo</title>
-    <!-- Bootstrap -->
+
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-    <!-- CSS personalizado -->
+
     <link rel="stylesheet" href="../public/css/style.css">
-    <!-- impedir a execução de scripts externos ou não autorizados -->
+
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
 </head>
 
@@ -17,53 +17,47 @@
     <div class="container">
         <form id="frmCarro" class="mt-2 row g-3">
 
-            <!-- Nome do Proprietario -->
+
             <div class="col-md-5">
                 <label for="inputProprietarioClient" class="form-label">Nome do Proprietario</label>
                 <input type="text" class="form-control" id="inputProprietarioClient" spellcheck="false" maxlength="15">
             </div>
 
-            <!-- Marca do carro -->
+
             <div class="col-md-3">
                 <label for="inputMarcaClient" class="form-label">Marca do Veiculo</label>
                 <input type="text" class="form-control" id="inputMarcaClient" spellcheck="false" required
                     maxlength="15">
             </div>
 
-            <!-- Modelo do Veiculo -->
             <div class="col-md-4">
                 <label for="inputModeloClient" class="form-label">Modelo</label>
                 <input type="text" class="form-control" id="inputModeloClient" spellcheck="false" required
                     maxlength="20">
             </div>
 
-            <!-- Ano do Veiculo -->
             <div class="col-md-3">
                 <label for="inputAnoClient" class="form-label">Ano</label>
                 <input type="text" class="form-control" id="inputAnoClient" spellcheck="false" maxlength="15">
             </div>
 
-            <!-- Placa -->
             <div class="col-md-3">
                 <label for="inputPlacaClient" class="form-label">Placa</label>
                 <input type="text" class="form-control" id="inputPlacaClient" spellcheck="false" required
                     maxlength="15">
             </div>
 
-            <!-- Cor -->
             <div class="col-md-2">
                 <label for="inputCorClient" class="form-label">Cor</label>
                 <input type="text" class="form-control" id="inputCorClient" spellcheck="false" required maxlength="15">
             </div>
 
-            <!-- Chassi -->
             <div class="col-md-4">
                 <label for="inputChassiClient" class="form-label">Chassi</label>
                 <input type="text" class="form-control" id="inputChassiClient" spellcheck="false" required
                     maxlength="30">
             </div>
 
-            <!-- Botões -->
             <div class="mt-5">
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
                 <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
@@ -74,9 +68,8 @@
         </form>
     </div>
 
-    <!-- Bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
-    <!-- renderizador -->
+
     <script src="rendererCarro.js"></script>
 
 </body>

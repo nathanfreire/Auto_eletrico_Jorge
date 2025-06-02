@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordem de Serviço</title>
-    <!-- Bootstrap -->
+ 
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-    <!-- CSS personalizado -->
+
     <link rel="stylesheet" href="../public/css/style.css">
-    <!-- impedir a execução de scripts externos ou não autorizados -->
+
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
 </head>
 
@@ -17,19 +17,16 @@
     <div class="container">
         <form id="frmOS" class="mt-2 row g-3">
 
-            <!-- OS -->
             <div class="col-md-4">
                 <label class="form-label">Nº OS</label>
                 <input type="text" class="form-control" id="inputOS" disabled>
             </div>
 
-            <!-- Data -->
             <div class="col-md-3">
                 <label class="form-label">Data de entrada</label>
                 <input type="text" class="form-control" id="inputData" disabled>
             </div>
 
-            <!-- Buscar cliente -->
             <div class="col-md-4">
                 <label for="inputSearchClient" class="form-label">Buscar Cliente</label>
                 <div class="input-group">
@@ -38,69 +35,58 @@
                         <img src="../public/img/lupa.png" alt="lupa" width="20">
                     </span>
                 </div>
-                <!-- Lista de sugestões - estilo Google -->
+
                 <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
             </div>
 
-            <!-- Id -->
             <div class="col-md-3">
                 <label for="inputIdClient" class="form-label">Id do cliente</label>
                 <input type="text" class="form-control" id="inputIdClient" spellcheck="false" maxlength="15" disabled>
             </div>
 
-            <!-- Nome -->
             <div class="col-md-3">
                 <label for="inputNameClient" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="inputNameClient" spellcheck="false" maxlength="30" disabled>
             </div>
 
-            <!-- Telefone -->
             <div class="col-md-2">
                 <label for="inputPhoneClient" class="form-label">Telefone</label>
                 <input type="text" class="form-control" id="inputPhoneClient" spellcheck="false" maxlength="15"
                     disabled>
             </div>
 
-            <input type="text" id="idClient"> <!-- oculto -->
+            <input type="text" id="idClient"> 
 
-            <!--CPF-->
             <div class="col-md-4 ">
                 <label for="inputCPFClient" class="form-label">CPF</label>
                 <input type="text" class="form-control" id="inputCPFClient" spellcheck="false" maxlength="15" disabled>
             </div>
 
-            <!-- Linha -->
             <hr class="mt-4 border border-secondary border -1">
 
-
-            <!-- Descrição do Serviço -->
             <div class="col-md-12">
                 <label for="serviceDescription" class="form-label">Descrição do Serviço / Estado do Veiculo</label>
                 <textarea class="form-control" id="serviceDescription" rows="3" maxlength="200" required></textarea>
             </div>
 
-            <!-- Materiais utilizados -->
             <div class="col-md-12">
                 <label for="inputPecasClient" class="form-label">Peças trocadas</label>
                 <input type="text" class="form-control" id="inputPecasClient" spellcheck="false" required
                     maxlength="60">
             </div>
 
-            <!-- Data de conclusão -->
             <div class="col-md-3">
                 <label for="inputconclusãoClient" class="form-label">Data de conclusão</label>
                 <input type="text" class="form-control" id="inputconclusãoClient" spellcheck="false" required
                     maxlength="30">
             </div>
 
-            <!-- Orçamento do serviço -->
             <div class="col-md-3">
                 <label for="inputOrcamentoClient" class="form-label">Orçamento do serviço</label>
                 <input type="text" class="form-control" id="inputOrcamentoClient" spellcheck="false" required
                     maxlength="30">
             </div>
 
-            <!-- Forma de pagamento -->
             <div class="col-md-3">
                 <label for="inputpagamentoClient" class="form-label">Forma de pagamento</label>
                 <select type="text" class="form-select" id="inputpagamentoClient" spellcheck="false" required
@@ -114,7 +100,6 @@
                 </select>
             </div>
 
-            <!-- Status -->
             <div class="col-md-3">
                 <label class="form-label">Status da OS</label>
                 <select class="form-select" id="osStatus">
@@ -127,7 +112,6 @@
                 </select>
             </div>
 
-            <!-- Linha -->
             <hr class="row mt-4 aling-itens-end">
 
             <div class="mt-2 justify-content-center gap-1 aling-itens-center">
@@ -140,9 +124,8 @@
         </form>
     </div>
 
-    <!-- Bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
-    <!-- renderizador -->
+
     <script src="rendererOS.js"></script>
 </body>
 
