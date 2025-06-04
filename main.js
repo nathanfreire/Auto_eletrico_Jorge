@@ -404,7 +404,7 @@ async function relatorioOsAbertas() {
         doc.addPage()
         y = 20
         doc.text("ID do Cliente", 14, y)
-        doc.text("Orçamento", 70, y)
+        doc.text("Orçamento", 85, y)
         doc.text("Status", 120, y)
         y += 5
         doc.setLineWidth(0.5)
@@ -413,7 +413,7 @@ async function relatorioOsAbertas() {
       }
 
       doc.text(c.idCliente || "N/A", 14, y)
-      doc.text(c.orcamento || "N/A", 70, y)
+      doc.text(c.orcamento || "N/A", 80, y)
       doc.text(c.status || "N/A", 120, y)
       y += 10
     })
@@ -472,7 +472,7 @@ async function relatorioOsConcluidas() {
         doc.addPage()
         y = 20
         doc.text("Nome do Cliente", 14, y)
-        doc.text("Orçamento", 70, y)
+        doc.text("Orçamento", 85, y)
         doc.text("Status", 120, y)
         y += 5
         doc.setLineWidth(0.5)
@@ -481,7 +481,7 @@ async function relatorioOsConcluidas() {
       }
 
       doc.text(c.idCliente || "N/A", 14, y)
-      doc.text(c.orcamento || "N/A", 70, y)
+      doc.text(c.orcamento || "N/A", 80, y)
       doc.text(c.status || "N/A", 120, y)
       y += 10
     })
