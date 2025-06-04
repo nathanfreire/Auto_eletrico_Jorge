@@ -13,6 +13,9 @@ const osSchema = new Schema ({
     nome: {
         type: String,        
     },
+    telefone:{
+        type: Number,
+    },
     descricao: {
         type: String
     },

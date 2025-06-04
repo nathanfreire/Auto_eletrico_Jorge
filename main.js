@@ -370,8 +370,13 @@ async function relatorioClientes() {
 
 async function relatorioOsAbertas() {
   try {
+    const osList = await osModel.find({ status: 'Aberta' }).sort({ orcamento: 1 })
+    const clientesList = await clientModel.find({}) // pega todos os clientes para cruzar
 
-    const clientes = await osModel.find({ status: 'Aberta' }).sort({ orcamento: 1 })
+    const clientesMap = new Map()
+    clientesList.forEach(cliente => {
+      clientesMap.set(String(cliente._id), cliente)
+    })
 
     const doc = new jsPDF('p', 'mm', 'a4')
 
@@ -380,7 +385,6 @@ async function relatorioOsAbertas() {
     doc.addImage(imageBase64, 'PNG', 20, 8)
 
     doc.setFontSize(18)
-
     doc.text("Relatório de Ordem de Serviços", 14, 45)
 
     const dataAtual = new Date().toLocaleDateString('pt-BR')
@@ -391,32 +395,37 @@ async function relatorioOsAbertas() {
     doc.text("Nome do Cliente", 14, y)
     doc.text("Orçamento", 70, y)
     doc.text("Status", 120, y)
+    doc.text("Telefone", 160, y)
     y += 5
 
     doc.setLineWidth(0.5)
     doc.line(10, y, 200, y)
-
     y += 10
 
-    clientes.forEach((c) => {
-
+    for (const os of osList) {
       if (y > 280) {
         doc.addPage()
         y = 20
-        doc.text("ID do Cliente", 14, y)
-        doc.text("Orçamento", 85, y)
+        doc.text("Nome do Cliente", 14, y)
+        doc.text("Orçamento", 70, y)
         doc.text("Status", 120, y)
+        doc.text("Telefone", 160, y)
         y += 5
         doc.setLineWidth(0.5)
         doc.line(10, y, 200, y)
         y += 10
       }
 
-      doc.text(c.idCliente || "N/A", 14, y)
-      doc.text(c.orcamento || "N/A", 80, y)
-      doc.text(c.status || "N/A", 120, y)
+      const cliente = clientesMap.get(String(os.idCliente)) || {}
+      const nome = cliente.nomeCliente || 'N/A'
+      const telefone = cliente.foneCliente || 'N/A'
+
+      doc.text(nome, 14, y)
+      doc.text(String(os.orcamento || 'N/A'), 70, y)
+      doc.text(os.status || 'N/A', 120, y)
+      doc.text(telefone, 160, y)
       y += 10
-    })
+    }
 
     const paginas = doc.internal.getNumberOfPages()
     for (let i = 1; i <= paginas; i++) {
@@ -429,7 +438,6 @@ async function relatorioOsAbertas() {
     const filePath = path.join(tempDir, 'ordemservico.pdf')
 
     doc.save(filePath)
-
     shell.openPath(filePath)
   } catch (error) {
     console.log(error)
@@ -438,8 +446,13 @@ async function relatorioOsAbertas() {
 
 async function relatorioOsConcluidas() {
   try {
+    const osList = await osModel.find({ status: 'Finalizada' }).sort({ orcamento: 1 })
+    const clientesList = await clientModel.find({})
 
-    const clientes = await osModel.find({ status: 'Finalizada' }).sort({ orcamento: 1 })
+    const clientesMap = new Map()
+    clientesList.forEach(cliente => {
+      clientesMap.set(String(cliente._id), cliente)
+    })
 
     const doc = new jsPDF('p', 'mm', 'a4')
 
@@ -448,8 +461,7 @@ async function relatorioOsConcluidas() {
     doc.addImage(imageBase64, 'PNG', 20, 8)
 
     doc.setFontSize(18)
-
-    doc.text("Relatório de Ordem de Serviços", 14, 45)
+    doc.text("Relatório de OS Concluídas", 14, 45)
 
     const dataAtual = new Date().toLocaleDateString('pt-BR')
     doc.setFontSize(12)
@@ -459,32 +471,37 @@ async function relatorioOsConcluidas() {
     doc.text("Nome do Cliente", 14, y)
     doc.text("Orçamento", 70, y)
     doc.text("Status", 120, y)
+    doc.text("Telefone", 160, y)
     y += 5
 
     doc.setLineWidth(0.5)
     doc.line(10, y, 200, y)
-
     y += 10
 
-    clientes.forEach((c) => {
-
+    for (const os of osList) {
       if (y > 280) {
         doc.addPage()
         y = 20
         doc.text("Nome do Cliente", 14, y)
-        doc.text("Orçamento", 85, y)
+        doc.text("Orçamento", 70, y)
         doc.text("Status", 120, y)
+        doc.text("Telefone", 160, y)
         y += 5
         doc.setLineWidth(0.5)
         doc.line(10, y, 200, y)
         y += 10
       }
 
-      doc.text(c.idCliente || "N/A", 14, y)
-      doc.text(c.orcamento || "N/A", 80, y)
-      doc.text(c.status || "N/A", 120, y)
+      const cliente = clientesMap.get(String(os.idCliente)) || {}
+      const nome = cliente.nomeCliente || 'N/A'
+      const telefone = cliente.foneCliente || 'N/A'
+
+      doc.text(nome, 14, y)
+      doc.text(String(os.orcamento || 'N/A'), 70, y)
+      doc.text(os.status || 'N/A', 120, y)
+      doc.text(telefone, 160, y)
       y += 10
-    })
+    }
 
     const paginas = doc.internal.getNumberOfPages()
     for (let i = 1; i <= paginas; i++) {
@@ -494,15 +511,15 @@ async function relatorioOsConcluidas() {
     }
 
     const tempDir = app.getPath('temp')
-    const filePath = path.join(tempDir, 'ordemservico.pdf')
+    const filePath = path.join(tempDir, 'ordens_concluidas.pdf')
 
     doc.save(filePath)
-
     shell.openPath(filePath)
   } catch (error) {
     console.log(error)
   }
 }
+
 
 ipcMain.on('validate-search', () => {
   dialog.showMessageBox({
